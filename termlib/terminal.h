@@ -44,7 +44,7 @@ const int MIN_SCREEN_HEIGHT = 80;
 // Class the main windows
 class TERM_WINDOW {
 private:
-	WINDOW *main;		// This is the main sub window
+	WINDOW *main;		// This is the main subwindow
 	WINDOW *background;	// and its background window
 public:
 	// Basic constructor
@@ -55,14 +55,17 @@ public:
 	void SetColors(chtype colors);
 	// This function is an analog refresh() for two windows (main and background)
 	void Update();
-	// Clear the text in the main sub window (wclear)
+	// Clear the text in the main subwindow (wclear)
 	void Clear();
-	// Print the text in the main sub window (wprintw)
+	// Print the text in the main subwindow (wprintw)
 	void Print(char *text);
-	// Return a pointer to the main sub window
+	// Return the main subwindow area
+	int GetArea();
+	// Return a pointer to the main subwindow
 	WINDOW *GetMain();
 };
 
+// Class of terminal I/O function
 class Terminal {
 private:
 	// Array of input characters
@@ -88,6 +91,8 @@ private:
 	static void UpdateWindow(DISPLAY_WINDOWS windowName);
 	// Initialization of the color scheme
 	static void InitAllColors();
+	// Getting information about the input text to the main window
+	static void GetInfoAboutMainText(char *text);
 public:
 	// Initialization of terminal functions (false - OK, true - ERROR)
 	static bool InitTerminal();

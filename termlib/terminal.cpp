@@ -5,9 +5,9 @@ TERM_WINDOW::TERM_WINDOW(int height, int width, int pos_y, int pos_x)
 {
 	// Create the background window
 	background = newwin(height, width, pos_y, pos_x);
-	// Create the main sub window
+	// Create the main subwindow
 	main = derwin(background, height - 2, width - 2, 1, 1);
-	// Create the box frame around the main sub window
+	// Create the box frame around the main subwindow
 	box(background, 0, 0);
 	// refresh background and main
 	Update();
@@ -38,20 +38,29 @@ void TERM_WINDOW::Update()
 	wrefresh(main);
 }
 
-// Clear the text in the main sub window (wclear)
+// Clear the text in the main subwindow (wclear)
 void TERM_WINDOW::Clear()
 {
 	wclear(main);
 	Update();
 }
 
-// Print the text in the main sub window (wprintw)
+// Print the text in the main subwindow (wprintw)
 void TERM_WINDOW::Print(char *text)
 {
 	wprintw(main, text);
 }
 
-// Return a pointer to the main sub window
+// Return the main subwindow area
+int TERM_WINDOW::GetArea()
+{
+	// Get the main subwindow size
+	int winWidth, winHeight;
+	getmaxyx(main, winHeight, winWidth);
+	return winWidth * winHeight;
+}
+
+// Return a pointer to the main subwindow
 WINDOW *TERM_WINDOW::GetMain()
 {
 	return main;
@@ -162,16 +171,16 @@ bool Terminal::SetWindow(DISPLAY_WINDOWS windowName, char *text)
 {
 	switch(windowName){
 	case HEAD:
-		wprintw(headWindow->GetMain(), text);
+		headWindow->Print(text);
 		break;
 	case MAIN_TEXT:
-		wprintw(mainTextWindow->GetMain(), text);
+		mainTextWindow->Print(text);
 		break;
 	case INPUT:
-		wprintw(inputWindow->GetMain(), text);
+		inputWindow->Print(text);
 		break;
 	case EXTRA:
-		wprintw(extraWindow->GetMain(), text);
+		extraWindow->Print(text);
 		break;
 	default:
 		return true;
@@ -181,10 +190,21 @@ bool Terminal::SetWindow(DISPLAY_WINDOWS windowName, char *text)
 	return false;
 }
 
+// Getting information about the input text to the main window
+void Terminal::GetInfoAboutMainText(char *text)
+{
+		
+}
+
 // Return a pointer to the inputBuffer Array
 char *Terminal::GetAnswer()
 {
+	// Enable the display of characters
+	echo();
+	// Get the input text
 	wscanw(inputWindow->GetMain(), "%s", inputBuffer);
+	// Disable the display of characters
+	noecho();
 	return inputBuffer;
 }
 
