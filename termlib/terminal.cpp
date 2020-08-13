@@ -1,6 +1,22 @@
 #include <cstring>
 #include "terminal.h"
 
+
+// Defining static variables of the Terminal class
+char Terminal::inputBuffer[INPUT_BUFFER_LEN] = "";
+char **Terminal::textBuffer = nullptr;
+
+TERM_WINDOW *Terminal::headWindow = nullptr;
+TERM_WINDOW *Terminal::mainTextWindow = nullptr;
+TERM_WINDOW *Terminal::inputWindow = nullptr;
+TERM_WINDOW *Terminal::extraWindow = nullptr;
+TERM_WINDOW *Terminal::systemWindow = nullptr;
+
+int Terminal::numPages = 0;
+int Terminal::currentPage = 0;
+int Terminal::numChr = 0;
+
+
 // Basic constructor
 TERM_WINDOW::TERM_WINDOW(int height, int width, int pos_y, int pos_x)
 {
@@ -80,10 +96,6 @@ bool Terminal::InitTerminal()
 	InitAllColors();
 	// Disable the display of characters
 	noecho();
-	// Disable the delay while the getch() is running
-	nodelay(stdscr,true);
-	// Enable the key handler
-	keypad(stdscr,true);
 	// Disable the display of the cursor
 	curs_set(0);
 	// If everything is OK, return the false value
@@ -117,21 +129,24 @@ bool Terminal::InitAllWindows()
 	
 	// Initialize the title window
 	int posCenterWidth = (scrWidth + INDENT_WIDTH)/4;
-	if(!(headWindow = new TERM_WINDOW(HEAD_HEIGHT, winWidth, 1, posCenterWidth, COLOR_PAIR(YELLOW)))){
+	if(!(headWindow = new TERM_WINDOW(HEAD_HEIGHT, winWidth/2, 1, posCenterWidth, COLOR_PAIR(YELLOW)))){
 		return true;
 	}
 	// Initialize the main text window
-	const int POS_LEFT_WIDTH = INDENT_HEIGHT/2;
-	if(!(mainTextWindow = new TERM_WINDOW(winHeight, winWidth, HEAD_HEIGHT + 1, POS_LEFT_WIDTH, COLOR_PAIR(WHITE)))){
+	if(!(mainTextWindow = new TERM_WINDOW(winHeight, winWidth, HEAD_HEIGHT + 1, INDENT_WIDTH/2, COLOR_PAIR(WHITE)))){
 		return true;
 	}
 	// Initialize the input window
-	if(!(inputWindow = new TERM_WINDOW(WINDOW_HEIGHT, winWidth, winHeight + HEAD_HEIGHT + 1, POS_LEFT_WIDTH, COLOR_PAIR(GREEN)))){
+	if(!(inputWindow = new TERM_WINDOW(WINDOW_HEIGHT, winWidth, winHeight + HEAD_HEIGHT + 1, INDENT_WIDTH/2, COLOR_PAIR(GREEN)))){
 		return true;
 	}
+	
+	// Enable the key handler in the input window
+	keypad(inputWindow->GetMain(), true);
+	
 	// Initialize the user extra window
 	int posDownHeight = WINDOW_HEIGHT + winHeight + HEAD_HEIGHT + 1;
-	if(!(extraWindow = new TERM_WINDOW(WINDOW_HEIGHT, winWidth/2, posDownHeight, POS_LEFT_WIDTH, COLOR_PAIR(BLUE)))){
+	if(!(extraWindow = new TERM_WINDOW(WINDOW_HEIGHT, winWidth/2, posDownHeight, INDENT_WIDTH/2, COLOR_PAIR(BLUE)))){
 		return true;
 	}
 	// Initialize the system window
@@ -142,8 +157,6 @@ bool Terminal::InitAllWindows()
 	
 	// Сlear the array of input characters
 	memset(inputBuffer, 0, INPUT_BUFFER_LEN);
-	
-	textBuffer = nullptr;
 	
 	// If everything is OK, return the false value
 	return false;
@@ -163,6 +176,7 @@ bool Terminal::ClearWindow(DISPLAY_WINDOWS windowName)
 	case INPUT:
 		inputWindow->Clear();
 		inputWindow->Print((char*)"Answer: ");
+		inputWindow->Update();
 		break;
 	case EXTRA:
 		extraWindow->Clear();
@@ -208,9 +222,10 @@ void Terminal::PrintSystemWindow(char *exceptionText)
 {
 	systemWindow->Clear();
 	WINDOW *printWindow = systemWindow->GetMain();
-	mvwprintw(printWindow, 1, 0, "Page: %d / %d", currentPage + 1, numPages);
+	mvwprintw(printWindow, 0, 1, "Page: %d / %d", currentPage + 1, numPages);
 	mvwprintw(printWindow, 1, 1, "All characters: %d", numChr);
-	mvwprintw(printWindow, 1, 2, "Exception: %s", exceptionText);
+	mvwprintw(printWindow, 2, 1, "Exception: %s", exceptionText);
+	systemWindow->Update();
 }
 
 // Setting information about the input text to the main window (false - OK, true - ERROR)
@@ -283,8 +298,7 @@ void Terminal::InputLoop()
 	// Infinite loop
 	while(1){
 		// Catch a key from the keyboard
-		int currentButton = getch();
-		
+		int currentButton = wgetch(inputWindow->GetMain());
 		switch(currentButton){
 		/* // Backup keys
 		case KEY_DOWN:
@@ -293,7 +307,7 @@ void Terminal::InputLoop()
 			break;
 		*/
 		case KEY_LEFT:
-			if(currentPage > 1){
+			if(currentPage > 0){
 				--currentPage;
 			}
 			// Update current page
@@ -311,12 +325,21 @@ void Terminal::InputLoop()
 		case ENTER:
 			// Сlear the array of input characters
 			memset(inputBuffer, 0, INPUT_BUFFER_LEN);
+			// Move the cursor to the input window
+			wmove(inputWindow->GetMain(), 0,8);
+			// Enable the display of the cursor
+			curs_set(1);
 			// Enable the display of characters
 			echo();
-			// Get the input text
-			wscanw(inputWindow->GetMain(), "%s", inputBuffer);
+			// Get the input text line
+			wgetstr(inputWindow->GetMain(), inputBuffer);
 			// Disable the display of characters
 			noecho();
+			// Disable the display of the cursor
+			curs_set(0);
+			// Clear this window
+			ClearWindow(INPUT);
+			// Return from the function
 			return;
 			break;
 		default:

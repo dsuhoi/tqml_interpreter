@@ -36,8 +36,8 @@ const int HEAD_HEIGHT = 3;
 const int WINDOW_HEIGHT = 5;
 
 // Limit of the screen size
-const int MIN_SCREEN_WIDTH = 80;
-const int MIN_SCREEN_HEIGHT = 80;
+const int MIN_SCREEN_WIDTH = 1;
+const int MIN_SCREEN_HEIGHT = 1;
 
 // Class the main windows
 class TERM_WINDOW {
@@ -116,5 +116,6 @@ public:
 	// Return a pointer to the inputBuffer Array
 	static char *GetAnswer();
 };
+
 
 #endif
