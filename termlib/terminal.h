@@ -3,6 +3,7 @@
 
 #include <ncurses.h>
 
+
 // background and cursor colors
 enum BACKGROUND_COLORS {
 	WHITE = 1,
@@ -49,6 +50,8 @@ public:
 	TERM_WINDOW(int height, int width, int pos_y, int pos_x);
 	// Constructor with color
 	TERM_WINDOW(int height, int width, int pos_y, int pos_x, chtype colors);
+	// Destructor
+	~TERM_WINDOW();
 	// Function for adding a color scheme
 	void SetColors(chtype colors);
 	// This function is an analog refresh() for two windows (main and background)
@@ -105,6 +108,8 @@ public:
 	static bool InitTerminal();
 	// Initialization of all windows (false - OK, true - ERROR)
 	static bool InitAllWindows();
+	// End of terminal functions (false - OK, true - ERROR)
+	static bool FinalTerminal();
 	// Clear a text in the window (false - OK, true - ERROR)
 	static bool ClearWindow(DISPLAY_WINDOWS windowName);
 	// Print a text to the window (false - OK, true - ERROR)

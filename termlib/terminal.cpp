@@ -41,6 +41,13 @@ TERM_WINDOW::TERM_WINDOW(int height, int width, int pos_y, int pos_x, chtype col
 	Update();
 }
 
+// Destructor
+TERM_WINDOW::~TERM_WINDOW()
+{
+	delete main;
+	delete background;
+}
+
 // Function for adding a color scheme
 void TERM_WINDOW::SetColors(chtype colors)
 {
@@ -111,6 +118,24 @@ void Terminal::InitAllColors()
 	init_pair(BLUE, COLOR_BLACK, COLOR_BLUE);
 	init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
 	
+}
+
+// End of terminal functions (false - OK, true - ERROR)
+bool Terminal::FinalTerminal()
+{
+	cbreak();
+	keypad(inputWindow->GetMain(), false);
+	ClearWindow(MAIN_TEXT);
+	
+	delete headWindow;
+	delete mainTextWindow;
+	delete extraWindow;
+	delete systemWindow;
+	delete inputWindow;
+	
+	endwin();
+	
+	return false;
 }
 
 // Initialization of all windows (false - OK, true - ERROR)
