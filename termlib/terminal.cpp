@@ -126,3 +126,27 @@ bool Terminal::InitAllWindows()
 	// If everything is OK, return the false value
 	return false;
 }
+
+// Clear a text in the window (false - OK, true - ERROR)
+bool Terminal::ClearWindow(DISPLAY_WINDOWS windowName)
+{
+	switch(windowName){
+	case HEAD:
+		headWindow->Clear();
+		break;
+	case MAIN_TEXT:
+		mainTextWindow->Clear();
+		break;
+	case INPUT:
+		inputWindow->Clear();
+		break;
+	case EXTRA:
+		extraWindow->Clear();
+		break;
+	default:
+		return true;
+		break;
+	};
+	// If everything is OK, return the false value
+	return false;
+}
