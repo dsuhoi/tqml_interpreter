@@ -150,3 +150,27 @@ bool Terminal::ClearWindow(DISPLAY_WINDOWS windowName)
 	// If everything is OK, return the false value
 	return false;
 }
+
+// Print a text to the window (false - OK, true - ERROR)
+bool Terminal::SetWindow(DISPLAY_WINDOWS windowName, char *text)
+{
+	switch(windowName){
+	case HEAD:
+		wprintw(headWindow->GetMain(), text);
+		break;
+	case MAIN_TEXT:
+		wprintw(mainTextWindow->GetMain(), text);
+		break;
+	case INPUT:
+		wprintw(inputWindow->GetMain(), text);
+		break;
+	case EXTRA:
+		wprintw(extraWindow->GetMain(), text);
+		break;
+	default:
+		return true;
+		break;
+	};
+	// If everything is OK, return the false value
+	return false;
+}
