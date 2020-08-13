@@ -52,3 +52,35 @@ WINDOW *TERM_WINDOW::GetMain()
 }
 
 
+// Initialization of terminal functions (false - OK, true - ERROR)
+bool Terminal::InitTerminal()
+{
+	// Initialize the stdscreen
+	initscr();
+	// Start color processing
+	start_color();
+	// Initialize the basic color schemes
+	InitAllColors();
+	// Disable the display of characters
+	noecho();
+	// Disable the delay while the getch() is running
+	nodelay(stdscr,true);
+	// Enable the key handler
+	keypad(stdscr,true);
+	// Disable the display of the cursor
+	curs_set(0);
+	// If everything is OK, return the false value
+	return false;
+}
+
+
+// Initialization of the color scheme
+void Terminal::InitAllColors()
+{
+	init_pair(WHITE, COLOR_BLACK, COLOR_WHITE);
+	init_pair(GREEN, COLOR_BLACK, COLOR_GREEN);
+	init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(BLUE, COLOR_BLACK, COLOR_BLUE);
+	init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
+	
+}
