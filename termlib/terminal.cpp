@@ -45,6 +45,12 @@ void TERM_WINDOW::Clear()
 	Update();
 }
 
+// Print the text in the main sub window (wprintw)
+void TERM_WINDOW::Print(char *text)
+{
+	wprintw(main, text);
+}
+
 // Return a pointer to the main sub window
 WINDOW *TERM_WINDOW::GetMain()
 {
@@ -181,3 +187,6 @@ char *Terminal::GetAnswer()
 	wscanw(inputWindow->GetMain(), "%s", inputBuffer);
 	return inputBuffer;
 }
+
+
+

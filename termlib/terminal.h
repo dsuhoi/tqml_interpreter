@@ -57,6 +57,8 @@ public:
 	void Update();
 	// Clear the text in the main sub window (wclear)
 	void Clear();
+	// Print the text in the main sub window (wprintw)
+	void Print(char *text);
 	// Return a pointer to the main sub window
 	WINDOW *GetMain();
 };
