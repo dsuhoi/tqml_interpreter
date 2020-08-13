@@ -24,4 +24,9 @@ TERM_WINDOW::TERM_WINDOW(int height, int width, int pos_y, int pos_x, chtype col
 	Update();
 }
 
-
+// Function for adding a color scheme
+void TERM_WINDOW::SetColors(chtype colors)
+{
+	wbkgd(main, colors);
+	wbkgd(background, colors);
+}
