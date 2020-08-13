@@ -259,7 +259,14 @@ bool Terminal::SetInfoAboutMainText(char *text)
 	return false;
 }
 
-
+// Getting a pointer to the text buffer
+char *Terminal::GetTextBuffer(const int _page)
+{
+	if(_page < 0 || numPages <= _page){
+		return nullptr;
+	}
+	return textBuffer[_page];
+}
 
 // Return a pointer to the inputBuffer Array
 char *Terminal::GetAnswer()
