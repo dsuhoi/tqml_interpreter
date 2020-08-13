@@ -158,6 +158,7 @@ bool Terminal::ClearWindow(DISPLAY_WINDOWS windowName)
 		break;
 	case MAIN_TEXT:
 		mainTextWindow->Clear();
+		EraseMainText();
 		break;
 	case INPUT:
 		inputWindow->Clear();
@@ -200,14 +201,6 @@ bool Terminal::PrintWindow(DISPLAY_WINDOWS windowName, char *text)
 	};
 	// If everything is OK, return the false value
 	return false;
-}
-
-// Update the main text page
-void Terminal::UpdateMainTextPage()
-{
-	mainTextWindow->Clear();
-	mainTextWindow->Print(textBuffer[currentPage]);
-	mainTextWindow->Update();
 }
 
 // Print the system information to the window (false - OK, true - ERROR)
@@ -259,6 +252,79 @@ bool Terminal::SetInfoAboutMainText(char *text)
 	return false;
 }
 
+// Update the main text page
+void Terminal::UpdateMainTextPage()
+{
+	mainTextWindow->Clear();
+	mainTextWindow->Print(textBuffer[currentPage]);
+	mainTextWindow->Update();
+}
+
+// Erase all main text variables
+void Terminal::EraseMainText()
+{
+	// Delete the text buffer
+	if(textBuffer != nullptr){
+		delete [] textBuffer[0];
+		delete [] textBuffer;
+		textBuffer = nullptr;
+	}
+	// Set zero in all main text variables
+	currentPage = 0;
+	numPages = 0;
+	numChr = 0;
+}
+
+// The main loop to enter keys on the keyboard
+void Terminal::InputLoop()
+{
+	// This is the ENTER key of the keyboard
+	const int ENTER = 10;
+	// Infinite loop
+	while(1){
+		// Catch a key from the keyboard
+		int currentButton = getch();
+		
+		switch(currentButton){
+		/* // Backup keys
+		case KEY_DOWN:
+			break;
+		case KEY_UP:
+			break;
+		*/
+		case KEY_LEFT:
+			if(currentPage > 1){
+				--currentPage;
+			}
+			// Update current page
+			UpdateMainTextPage();
+			PrintSystemWindow();
+			break;
+		case KEY_RIGHT:
+			if(currentPage < numPages - 1){
+				++currentPage;
+			}
+			// Update current page
+			UpdateMainTextPage();
+			PrintSystemWindow();
+			break;
+		case ENTER:
+			// Сlear the array of input characters
+			memset(inputBuffer, 0, INPUT_BUFFER_LEN);
+			// Enable the display of characters
+			echo();
+			// Get the input text
+			wscanw(inputWindow->GetMain(), "%s", inputBuffer);
+			// Disable the display of characters
+			noecho();
+			return;
+			break;
+		default:
+			break;
+		};
+	}
+}
+
 // Getting a pointer to the text buffer
 char *Terminal::GetTextBuffer(const int _page)
 {
@@ -273,7 +339,3 @@ char *Terminal::GetAnswer()
 {
 	return inputBuffer;
 }
-
-
-
-

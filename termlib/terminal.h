@@ -98,6 +98,8 @@ private:
 	static char *GetTextBuffer(const int _page);
 	// Update the main text page
 	static void UpdateMainTextPage();
+	// Erase all main text variables
+	static void EraseMainText();
 public:
 	// Initialization of terminal functions (false - OK, true - ERROR)
 	static bool InitTerminal();
@@ -109,10 +111,10 @@ public:
 	static bool PrintWindow(DISPLAY_WINDOWS windowName, char *text);
 	// Print the system information to the window (false - OK, true - ERROR)
 	static void PrintSystemWindow(char *exceptionText = nullptr);
-	// Return a pointer to the inputBuffer Array
-	static char *GetAnswer();
 	// The main loop to enter keys on the keyboard
 	static void InputLoop();
+	// Return a pointer to the inputBuffer Array
+	static char *GetAnswer();
 };
 
 #endif
