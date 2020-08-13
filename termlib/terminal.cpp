@@ -202,6 +202,14 @@ bool Terminal::PrintWindow(DISPLAY_WINDOWS windowName, char *text)
 	return false;
 }
 
+// Update the main text page
+void Terminal::UpdateMainTextPage()
+{
+	mainTextWindow->Clear();
+	mainTextWindow->Print(textBuffer[currentPage]);
+	mainTextWindow->Update();
+}
+
 // Print the system information to the window (false - OK, true - ERROR)
 void Terminal::PrintSystemWindow(char *exceptionText)
 {
