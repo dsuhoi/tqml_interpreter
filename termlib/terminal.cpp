@@ -37,3 +37,10 @@ void TERM_WINDOW::Update()
 	wrefresh(background);
 	wrefresh(main);
 }
+
+// Clear the text in the main sub window (wclear)
+void TERM_WINDOW::Clear()
+{
+	wclear(main);
+	Update();
+}
