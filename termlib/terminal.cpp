@@ -30,3 +30,10 @@ void TERM_WINDOW::SetColors(chtype colors)
 	wbkgd(main, colors);
 	wbkgd(background, colors);
 }
+
+// This function is an analog refresh() for two windows (main and background)
+void TERM_WINDOW::Update()
+{
+	wrefresh(background);
+	wrefresh(main);
+}
