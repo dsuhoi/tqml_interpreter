@@ -24,8 +24,6 @@ enum DISPLAY_WINDOWS {
 
 // For the name of the open file
 const int INPUT_BUFFER_LEN = 256;
-// For the array of input characters
-const int FILE_NAME_LEN = 32;
 
 // Indent size
 const int INDENT_WIDTH = 10;
@@ -70,6 +68,9 @@ class Terminal {
 private:
 	// Array of input characters
 	static char inputBuffer[INPUT_BUFFER_LEN];
+	// Pointer to the main text buffer
+	static char **textBuffer;
+	
 	// Window for displaying the title text
 	static TERM_WINDOW *headWindow;
 	// Window for displaying the text of the story
@@ -84,27 +85,34 @@ private:
 	static int numPages;		// Number of pages in the text
 	static int currentPage;		// Current page number
 	static int numChr;			// Number of characters in the text
-	static char fileName[FILE_NAME_LEN];	// Name of the open file
+
 	// Private constructor
 	Terminal(){}
 	// Analog refresh() function for the windows
 	static void UpdateWindow(DISPLAY_WINDOWS windowName);
 	// Initialization of the color scheme
 	static void InitAllColors();
-	// Getting information about the input text to the main window
-	static void GetInfoAboutMainText(char *text);
+	// Setting information about the input text to the main window (false - OK, true - ERROR)
+	static bool SetInfoAboutMainText(char *text);
+	// Getting a pointer to the text buffer
+	static char *GetTextBuffer(const int _page);
+	// Update the main text page
+	static void UpdateMainTextPage();
 public:
 	// Initialization of terminal functions (false - OK, true - ERROR)
 	static bool InitTerminal();
 	// Initialization of all windows (false - OK, true - ERROR)
 	static bool InitAllWindows();
-	// Clear a text in the window
+	// Clear a text in the window (false - OK, true - ERROR)
 	static bool ClearWindow(DISPLAY_WINDOWS windowName);
-	// Print a text to the window
-	static bool SetWindow(DISPLAY_WINDOWS windowName, char *text);
+	// Print a text to the window (false - OK, true - ERROR)
+	static bool PrintWindow(DISPLAY_WINDOWS windowName, char *text);
+	// Print the system information to the window (false - OK, true - ERROR)
+	static void PrintSystemWindow(char *exceptionText = nullptr);
 	// Return a pointer to the inputBuffer Array
 	static char *GetAnswer();
-	
+	// The main loop to enter keys on the keyboard
+	static void InputLoop();
 };
 
 #endif
