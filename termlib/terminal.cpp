@@ -52,6 +52,7 @@ WINDOW *TERM_WINDOW::GetMain()
 }
 
 
+
 // Initialization of terminal functions (false - OK, true - ERROR)
 bool Terminal::InitTerminal()
 {
@@ -73,7 +74,6 @@ bool Terminal::InitTerminal()
 	return false;
 }
 
-
 // Initialization of the color scheme
 void Terminal::InitAllColors()
 {
@@ -83,4 +83,46 @@ void Terminal::InitAllColors()
 	init_pair(BLUE, COLOR_BLACK, COLOR_BLUE);
 	init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
 	
+}
+
+// Initialization of all windows (false - OK, true - ERROR)
+bool Terminal::InitAllWindows()
+{
+	// Get the screen size
+	int scrWidth, scrHeight;
+	getmaxyx(stdscr, scrHeight, scrWidth);
+	// Check the screen size
+	if(scrWidth < MIN_SCREEN_WIDTH || scrHeight < MIN_SCREEN_HEIGHT){
+		return true;
+	}
+	// The size of the windows
+	int winWidth = scrWidth - INDENT_WIDTH;
+	int winHeight = scrHeight - INDENT_HEIGHT;
+	
+	// Initialize the title window
+	int posCenterWidth = (scrWidth + INDENT_WIDTH)/4;
+	if(!(headWindow = new TERM_WINDOW(HEAD_HEIGHT, winWidth, 1, posCenterWidth, COLOR_PAIR(YELLOW)))){
+		return true;
+	}
+	// Initialize the main text window
+	const int POS_LEFT_WIDTH = INDENT_HEIGHT/2;
+	if(!(mainTextWindow = new TERM_WINDOW(winHeight, winWidth, HEAD_HEIGHT + 1, POS_LEFT_WIDTH, COLOR_PAIR(WHITE)))){
+		return true;
+	}
+	// Initialize the input window
+	if(!(inputWindow = new TERM_WINDOW(WINDOW_HEIGHT, winWidth, winHeight + HEAD_HEIGHT + 1, POS_LEFT_WIDTH, COLOR_PAIR(GREEN)))){
+		return true;
+	}
+	// Initialize the user extra window
+	int posDownHeight = WINDOW_HEIGHT + winHeight + HEAD_HEIGHT + 1;
+	if(!(extraWindow = new TERM_WINDOW(WINDOW_HEIGHT, winWidth/2, posDownHeight, POS_LEFT_WIDTH, COLOR_PAIR(BLUE)))){
+		return true;
+	}
+	// Initialize the system window
+	int posRightWidth = scrWidth/2;
+	if(!(systemWindow = new TERM_WINDOW(WINDOW_HEIGHT, winWidth/2, posDownHeight, posRightWidth, COLOR_PAIR(CYAN)))){
+		return true;
+	}
+	// If everything is OK, return the false value
+	return false;
 }
