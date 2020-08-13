@@ -212,116 +212,12 @@ void Terminal::PrintSystemWindow(char *exceptionText)
 	mvwprintw(printWindow, 1, 2, "Exception: %s", exceptionText);
 }
 
-// Setting information about the input text to the main window (false - OK, true - ERROR)
-bool Terminal::SetInfoAboutMainText(char *text)
-{
-	// Check the pointer to the textBuffer
-	if(textBuffer != nullptr){
-		return true;
-	}
-	// Set the value on the first page
-	currentPage = 0;
-	int fullArea = mainTextWindow->GetArea();
-	numChr = strlen(text);
-	// If one page...
-	if(numChr <= fullArea){
-		numPages = 1;
-	}
-	else{
-		// ...else processing number of pages
-		numPages = numChr / fullArea;
-		if(numChr % fullArea != 0){
-			++numPages;
-		}
-	}
-	
-	// Pointer to the main text
-	char *copyText = text;
-	// Create the text buffer
-	textBuffer = new char*[numPages];
-	textBuffer[0] = new char[(fullArea + 1) * numPages];
-	for(int i = 0; i < numPages; i++){
-		textBuffer[i] = textBuffer[0] + (fullArea + 1) * i;
-		// Copy text to the textBuffer page
-		strncpy(textBuffer[i], copyText, fullArea);
-		copyText = &copyText[fullArea];
-	}
-	
-	// If everything is OK, return the false value
-	return false;
-}
-
-// Update the main text page
-void Terminal::UpdateMainTextPage()
-{
-	mainTextWindow->Clear();
-	mainTextWindow->Print(textBuffer[currentPage]);
-	mainTextWindow->Update();
-}
-
-// Getting a pointer to the text buffer
-char *Terminal::GetTextBuffer(const int _page)
-{
-	if(_page < 0 || numPages <= _page){
-		return nullptr;
-	}
-	return textBuffer[_page];
-}
-
 // Return a pointer to the inputBuffer Array
 char *Terminal::GetAnswer()
 {
 	return inputBuffer;
 }
 
-// The main loop to enter keys on the keyboard
-void Terminal::InputLoop()
-{
-	// This is the ENTER key of the keyboard
-	const int ENTER = 10;
-	// Infinite loop
-	while(1){
-		// Catch a key from the keyboard
-		int currentButton = getch();
-		
-		switch(currentButton){
-		/* // Backup keys
-		case KEY_DOWN:
-			break;
-		case KEY_UP:
-			break;
-		*/
-		case KEY_LEFT:
-			if(currentPage > 1){
-				--currentPage;
-			}
-			// Update current page
-			UpdateMainTextPage();
-			PrintSystemWindow();
-			break;
-		case KEY_RIGHT:
-			if(currentPage < numPages - 1){
-				++currentPage;
-			}
-			// Update current page
-			UpdateMainTextPage();
-			PrintSystemWindow();
-			break;
-		case ENTER:
-			// Сlear the array of input characters
-			memset(inputBuffer, 0, INPUT_BUFFER_LEN);
-			// Enable the display of characters
-			echo();
-			// Get the input text
-			wscanw(inputWindow->GetMain(), "%s", inputBuffer);
-			// Disable the display of characters
-			noecho();
-			return;
-			break;
-		default:
-			break;
-		};
-	}
-}
+
 
 
