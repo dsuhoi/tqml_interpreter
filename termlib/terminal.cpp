@@ -44,3 +44,11 @@ void TERM_WINDOW::Clear()
 	wclear(main);
 	Update();
 }
+
+// Return a pointer to the main sub window
+WINDOW *TERM_WINDOW::GetMain()
+{
+	return main;
+}
+
+
