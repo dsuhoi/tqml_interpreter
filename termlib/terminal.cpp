@@ -212,6 +212,47 @@ void Terminal::PrintSystemWindow(char *exceptionText)
 	mvwprintw(printWindow, 1, 2, "Exception: %s", exceptionText);
 }
 
+// Setting information about the input text to the main window (false - OK, true - ERROR)
+bool Terminal::SetInfoAboutMainText(char *text)
+{
+	// Check the pointer to the textBuffer
+	if(textBuffer != nullptr){
+		return true;
+	}
+	// Set the value on the first page
+	currentPage = 0;
+	int fullArea = mainTextWindow->GetArea();
+	numChr = strlen(text);
+	// If one page...
+	if(numChr <= fullArea){
+		numPages = 1;
+	}
+	else{
+		// ...else processing number of pages
+		numPages = numChr / fullArea;
+		if(numChr % fullArea != 0){
+			++numPages;
+		}
+	}
+	
+	// Pointer to the main text
+	char *copyText = text;
+	// Create the text buffer
+	textBuffer = new char*[numPages];
+	textBuffer[0] = new char[(fullArea + 1) * numPages];
+	for(int i = 0; i < numPages; i++){
+		textBuffer[i] = textBuffer[0] + (fullArea + 1) * i;
+		// Copy text to the textBuffer page
+		strncpy(textBuffer[i], copyText, fullArea);
+		copyText = &copyText[fullArea];
+	}
+	
+	// If everything is OK, return the false value
+	return false;
+}
+
+
+
 // Return a pointer to the inputBuffer Array
 char *Terminal::GetAnswer()
 {
