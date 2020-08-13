@@ -174,3 +174,10 @@ bool Terminal::SetWindow(DISPLAY_WINDOWS windowName, char *text)
 	// If everything is OK, return the false value
 	return false;
 }
+
+// Return a pointer to the inputBuffer Array
+char *Terminal::GetAnswer()
+{
+	wscanw(inputWindow->GetMain(), "%s", inputBuffer);
+	return inputBuffer;
+}
