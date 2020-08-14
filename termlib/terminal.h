@@ -1,5 +1,5 @@
-#ifndef __DISPLAY_H__
-#define __DISPLAY_H__
+#ifndef __TERMINAL_H__
+#define __TERMINAL_H__
 
 #include <ncurses.h>
 
