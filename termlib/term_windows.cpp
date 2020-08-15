@@ -104,4 +104,16 @@ MAIN_TEXT_WINDOW::~MAIN_TEXT_WINDOW()
 	Clear();
 }
 
+// This function is an analog refresh() for two windows (main and background)
+void MAIN_TEXT_WINDOW::Update()
+{
+	TERM_WINDOW::Update();
+}
 
+// Update the main text page
+void MAIN_TEXT_WINDOW::UpdatePage()
+{
+	TERM_WINDOW::Clear();
+	TERM_WINDOW::Print(textBuffer[currentPage]);
+	TERM_WINDOW::Update();
+}

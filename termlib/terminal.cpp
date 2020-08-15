@@ -46,7 +46,8 @@ bool Terminal::FinalTerminal()
 	// Disable the keyboard handler
 	cbreak();
 	keypad(inputWindow->GetMain(), false);
-	// Enable the display of characters
+	// Enable the display of cursor and characters
+	curs_set(1);
 	echo();
 	// Delete the text buffer from the main text window
 	ClearWindow(MAIN_TEXT);
