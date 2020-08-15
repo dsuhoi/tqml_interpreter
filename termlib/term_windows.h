@@ -39,7 +39,7 @@ private:
 	int numChr;			// Number of characters in the text
 public:
 	// Constructors
-	MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x);// : TERM_WINDOW(int height, int width, int pos_y, int pos_x) { }
+	MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x);
 	MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x, chtype colors);
 	// Destructor
 	~MAIN_TEXT_WINDOW();
