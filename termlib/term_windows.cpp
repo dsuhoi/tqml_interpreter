@@ -156,3 +156,20 @@ void MAIN_TEXT_WINDOW::Print(char *text)
 	// Print the main text page
 	TERM_WINDOW::Print(textBuffer[currentPage]);
 }
+
+// Erase all main text variables
+void MAIN_TEXT_WINDOW::Clear()
+{
+	// Delete the text buffer
+	if(textBuffer != nullptr){
+		delete [] textBuffer[0];
+		delete [] textBuffer;
+		textBuffer = nullptr;
+	}
+	// Set zero in all main text variables
+	currentPage = 0;
+	numPages = 0;
+	numChr = 0;
+	
+	TERM_WINDOW::Clear();
+}
