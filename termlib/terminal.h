@@ -2,7 +2,7 @@
 #define __TERMINAL_H__
 
 #include <ncurses.h>
-
+#include "term_windows.h"
 
 // background and cursor colors
 enum BACKGROUND_COLORS {
@@ -40,54 +40,23 @@ const int WINDOW_HEIGHT = 5;
 const int MIN_SCREEN_WIDTH = 1;
 const int MIN_SCREEN_HEIGHT = 1;
 
-// Class the main windows
-class TERM_WINDOW {
-private:
-	WINDOW *main;		// This is the main subwindow
-	WINDOW *background;	// and its background window
-public:
-	// Basic constructor
-	TERM_WINDOW(int height, int width, int pos_y, int pos_x);
-	// Constructor with color
-	TERM_WINDOW(int height, int width, int pos_y, int pos_x, chtype colors);
-	// Destructor
-	~TERM_WINDOW();
-	// Function for adding a color scheme
-	void SetColors(chtype colors);
-	// This function is an analog refresh() for two windows (main and background)
-	void Update();
-	// Clear the text in the main subwindow (wclear)
-	void Clear();
-	// Print the text in the main subwindow (wprintw)
-	void Print(char *text);
-	// Return the main subwindow area
-	int GetArea();
-	// Return a pointer to the main subwindow
-	WINDOW *GetMain();
-};
 
 // Class of terminal I/O function
 class Terminal {
 private:
 	// Array of input characters
 	static char inputBuffer[INPUT_BUFFER_LEN];
-	// Pointer to the main text buffer
-	static char **textBuffer;
 	
 	// Window for displaying the title text
 	static TERM_WINDOW *headWindow;
 	// Window for displaying the text of the story
-	static TERM_WINDOW *mainTextWindow;
+	static MAIN_TEXT_WINDOW *mainTextWindow;
 	// Window for displaying the input user data
 	static TERM_WINDOW *inputWindow;
 	// Window for displaying the user extra information
 	static TERM_WINDOW *extraWindow;
 	// Window for displaying the system information
 	static TERM_WINDOW *systemWindow;
-	
-	static int numPages;		// Number of pages in the text
-	static int currentPage;		// Current page number
-	static int numChr;			// Number of characters in the text
 
 	// Private constructor
 	Terminal(){}
@@ -95,14 +64,8 @@ private:
 	static void UpdateWindow(DISPLAY_WINDOWS windowName);
 	// Initialization of the color scheme
 	static void InitAllColors();
-	// Setting information about the input text to the main window (false - OK, true - ERROR)
-	static bool SetInfoAboutMainText(char *text);
-	// Getting a pointer to the text buffer
-	static char *GetTextBuffer(const int _page);
-	// Update the main text page
-	static void UpdateMainTextPage();
-	// Erase all main text variables
-	static void EraseMainText();
+	// Scanning input text from the input window
+	static void ScanInputWindow();
 public:
 	// Initialization of terminal functions (false - OK, true - ERROR)
 	static bool InitTerminal();

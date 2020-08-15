@@ -4,92 +4,12 @@
 
 // Defining static variables of the Terminal class
 char Terminal::inputBuffer[INPUT_BUFFER_LEN] = "";
-char **Terminal::textBuffer = nullptr;
 
 TERM_WINDOW *Terminal::headWindow = nullptr;
-TERM_WINDOW *Terminal::mainTextWindow = nullptr;
+MAIN_TEXT_WINDOW *Terminal::mainTextWindow = nullptr;
 TERM_WINDOW *Terminal::inputWindow = nullptr;
 TERM_WINDOW *Terminal::extraWindow = nullptr;
 TERM_WINDOW *Terminal::systemWindow = nullptr;
-
-int Terminal::numPages = 0;
-int Terminal::currentPage = 0;
-int Terminal::numChr = 0;
-
-
-// Basic constructor
-TERM_WINDOW::TERM_WINDOW(int height, int width, int pos_y, int pos_x)
-{
-	// Create the background window
-	background = newwin(height, width, pos_y, pos_x);
-	// Create the main subwindow
-	main = derwin(background, height - 2, width - 2, 1, 1);
-	// Create the box frame around the main subwindow
-	box(background, 0, 0);
-	// refresh background and main
-	Update();
-}
-
-// Constructor with color
-TERM_WINDOW::TERM_WINDOW(int height, int width, int pos_y, int pos_x, chtype colors)
-{
-	background = newwin(height, width, pos_y, pos_x);
-	main = derwin(background, height - 2, width - 2, 1, 1);
-	box(background, 0, 0);
-	// Install the color scheme for the window
-	SetColors(colors);
-	Update();
-}
-
-// Destructor
-TERM_WINDOW::~TERM_WINDOW()
-{
-	delete main;
-	delete background;
-}
-
-// Function for adding a color scheme
-void TERM_WINDOW::SetColors(chtype colors)
-{
-	wbkgd(main, colors);
-	wbkgd(background, colors);
-}
-
-// This function is an analog refresh() for two windows (main and background)
-void TERM_WINDOW::Update()
-{
-	wrefresh(background);
-	wrefresh(main);
-}
-
-// Clear the text in the main subwindow (wclear)
-void TERM_WINDOW::Clear()
-{
-	wclear(main);
-	Update();
-}
-
-// Print the text in the main subwindow (wprintw)
-void TERM_WINDOW::Print(char *text)
-{
-	wprintw(main, text);
-}
-
-// Return the main subwindow area
-int TERM_WINDOW::GetArea()
-{
-	// Get the main subwindow size
-	int winWidth, winHeight;
-	getmaxyx(main, winHeight, winWidth);
-	return winWidth * winHeight;
-}
-
-// Return a pointer to the main subwindow
-WINDOW *TERM_WINDOW::GetMain()
-{
-	return main;
-}
-
 
 
 // Initialization of terminal functions (false - OK, true - ERROR)
@@ -123,16 +43,20 @@ void Terminal::InitAllColors()
 // End of terminal functions (false - OK, true - ERROR)
 bool Terminal::FinalTerminal()
 {
+	// Disable the keyboard handler
 	cbreak();
 	keypad(inputWindow->GetMain(), false);
+	// Enable the display of characters
+	echo();
+	// Delete the text buffer from the main text window
 	ClearWindow(MAIN_TEXT);
-	
+	// Delete all windows
 	delete headWindow;
 	delete mainTextWindow;
 	delete extraWindow;
 	delete systemWindow;
 	delete inputWindow;
-	
+	// End of the terminal
 	endwin();
 	
 	return false;
@@ -158,7 +82,7 @@ bool Terminal::InitAllWindows()
 		return true;
 	}
 	// Initialize the main text window
-	if(!(mainTextWindow = new TERM_WINDOW(winHeight, winWidth, HEAD_HEIGHT + 1, INDENT_WIDTH/2, COLOR_PAIR(WHITE)))){
+	if(!(mainTextWindow = new MAIN_TEXT_WINDOW(winHeight, winWidth, HEAD_HEIGHT + 1, INDENT_WIDTH/2, COLOR_PAIR(WHITE)))){
 		return true;
 	}
 	// Initialize the input window
@@ -168,6 +92,8 @@ bool Terminal::InitAllWindows()
 	
 	// Enable the key handler in the input window
 	keypad(inputWindow->GetMain(), true);
+	inputWindow->Print((char*)"Answer: ");
+	inputWindow->Update();
 	
 	// Initialize the user extra window
 	int posDownHeight = WINDOW_HEIGHT + winHeight + HEAD_HEIGHT + 1;
@@ -196,7 +122,6 @@ bool Terminal::ClearWindow(DISPLAY_WINDOWS windowName)
 		break;
 	case MAIN_TEXT:
 		mainTextWindow->Clear();
-		EraseMainText();
 		break;
 	case INPUT:
 		inputWindow->Clear();
@@ -223,8 +148,9 @@ bool Terminal::PrintWindow(DISPLAY_WINDOWS windowName, char *text)
 		headWindow->Update();
 		break;
 	case MAIN_TEXT:
-		SetInfoAboutMainText(text);
-		UpdateMainTextPage();
+		mainTextWindow->Print(text);
+		mainTextWindow->Update();
+		PrintSystemWindow();
 		break;
 	case INPUT:
 		inputWindow->Print(text);
@@ -247,79 +173,44 @@ void Terminal::PrintSystemWindow(char *exceptionText)
 {
 	systemWindow->Clear();
 	WINDOW *printWindow = systemWindow->GetMain();
-	mvwprintw(printWindow, 0, 1, "Page: %d / %d", currentPage + 1, numPages);
-	mvwprintw(printWindow, 1, 1, "All characters: %d", numChr);
+	int currentTextPage = mainTextWindow->SetCurrentPage() + 1;
+	int numTextPages = mainTextWindow->GetNumPages();
+	int numChrInText = mainTextWindow->GetNumChr();
+	mvwprintw(printWindow, 0, 1, "Page: %d / %d", currentTextPage, numTextPages);
+	mvwprintw(printWindow, 1, 1, "All characters: %d", numChrInText);
 	mvwprintw(printWindow, 2, 1, "Exception: %s", exceptionText);
 	systemWindow->Update();
 }
 
-// Setting information about the input text to the main window (false - OK, true - ERROR)
-bool Terminal::SetInfoAboutMainText(char *text)
+// Scanning input text from the input window
+void Terminal::ScanInputWindow()
 {
-	// Check the pointer to the textBuffer
-	if(textBuffer != nullptr){
-		return true;
-	}
-	// Set the value on the first page
-	currentPage = 0;
-	int fullArea = mainTextWindow->GetArea();
-	numChr = strlen(text);
-	// If one page...
-	if(numChr <= fullArea){
-		numPages = 1;
-	}
-	else{
-		// ...else processing number of pages
-		numPages = numChr / fullArea;
-		if(numChr % fullArea != 0){
-			++numPages;
-		}
-	}
-	
-	// Pointer to the main text
-	char *copyText = text;
-	// Create the text buffer
-	textBuffer = new char*[numPages];
-	textBuffer[0] = new char[(fullArea + 1) * numPages];
-	for(int i = 0; i < numPages; i++){
-		textBuffer[i] = textBuffer[0] + (fullArea + 1) * i;
-		// Copy text to the textBuffer page
-		strncpy(textBuffer[i], copyText, fullArea);
-		copyText = &copyText[fullArea];
-	}
-	
-	// If everything is OK, return the false value
-	return false;
+	// Сlear the array of input characters
+	memset(inputBuffer, 0, INPUT_BUFFER_LEN);
+	// Move the cursor to the input window
+	wmove(inputWindow->GetMain(), 0,8);
+	// Enable the display of the cursor
+	curs_set(1);
+	// Enable the display of characters
+	echo();
+	// Get the input text line
+	wgetstr(inputWindow->GetMain(), inputBuffer);
+	// Disable the display of characters
+	noecho();
+	// Disable the display of the cursor
+	curs_set(0);
+	// Clear this window
+	ClearWindow(INPUT);
 }
 
-// Update the main text page
-void Terminal::UpdateMainTextPage()
-{
-	mainTextWindow->Clear();
-	mainTextWindow->Print(textBuffer[currentPage]);
-	mainTextWindow->Update();
-}
-
-// Erase all main text variables
-void Terminal::EraseMainText()
-{
-	// Delete the text buffer
-	if(textBuffer != nullptr){
-		delete [] textBuffer[0];
-		delete [] textBuffer;
-		textBuffer = nullptr;
-	}
-	// Set zero in all main text variables
-	currentPage = 0;
-	numPages = 0;
-	numChr = 0;
-}
 
 // The main loop to enter keys on the keyboard
 void Terminal::InputLoop()
 {
 	// This is the ENTER key of the keyboard
 	const int ENTER = 10;
+	int currentTextPage = mainTextWindow->SetCurrentPage();
+	int numTextPages = mainTextWindow->GetNumPages();
 	// Infinite loop
 	while(1){
 		// Catch a key from the keyboard
@@ -332,38 +223,24 @@ void Terminal::InputLoop()
 			break;
 		*/
 		case KEY_LEFT:
-			if(currentPage > 0){
-				--currentPage;
+			if(currentTextPage > 0){
+				mainTextWindow->SetCurrentPage() = --currentTextPage;
 			}
-			// Update current page
-			UpdateMainTextPage();
+			// Update current text page and systemm info
+			mainTextWindow->UpdatePage();
 			PrintSystemWindow();
 			break;
 		case KEY_RIGHT:
-			if(currentPage < numPages - 1){
-				++currentPage;
+			if(currentTextPage < numTextPages - 1){
+				mainTextWindow->SetCurrentPage() = ++currentTextPage;
 			}
-			// Update current page
-			UpdateMainTextPage();
+			// Update current text page and system info
+			mainTextWindow->UpdatePage();
 			PrintSystemWindow();
 			break;
 		case ENTER:
-			// Сlear the array of input characters
-			memset(inputBuffer, 0, INPUT_BUFFER_LEN);
-			// Move the cursor to the input window
-			wmove(inputWindow->GetMain(), 0,8);
-			// Enable the display of the cursor
-			curs_set(1);
-			// Enable the display of characters
-			echo();
-			// Get the input text line
-			wgetstr(inputWindow->GetMain(), inputBuffer);
-			// Disable the display of characters
-			noecho();
-			// Disable the display of the cursor
-			curs_set(0);
-			// Clear this window
-			ClearWindow(INPUT);
+			// Scan the input text
+			ScanInputWindow();
 			// Return from the function
 			return;
 			break;
@@ -371,15 +248,6 @@ void Terminal::InputLoop()
 			break;
 		};
 	}
-}
-
-// Getting a pointer to the text buffer
-char *Terminal::GetTextBuffer(const int _page)
-{
-	if(_page < 0 || numPages <= _page){
-		return nullptr;
-	}
-	return textBuffer[_page];
 }
 
 // Return a pointer to the inputBuffer Array
