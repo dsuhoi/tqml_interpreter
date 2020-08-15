@@ -1,10 +1,11 @@
 #ifndef __INTERPRETER_H__
 #define __INTERPRETER_H__
 
-
-#include <vector>
+#include <map>
 #include <regex>
 
+
+// Text link to the next text part
 class TextLink {
 private:
 	// Pointer to the file name string
@@ -28,15 +29,19 @@ public:
 	int GetLink();
 };
 
+// Class for parsing text data
 class RegexParser {
 private:
 	// Regular expression for parsing file text
 	static const char FILE_TEXT_REGEX[];
-	// Pointer to the text parts array
-	static char **textParts;
+	// Map to the text parts and its link
+	static std::map<int, char*> textParts;
+	
+	// Private constructor
+	RegexParser() {}
 public:
-	// Parsing the file text (Return an array with text parts)
-	static char **ParseFile(char *fileText);
+	// Parsing the file text (Return an array with text parts) (false - OK, true - ERROR)
+	static bool ParseFile(char *fileText);
 	// Return the pointer to the text links from the text part
 	static TextLink *ParseLinks(char *part);
 };
@@ -55,7 +60,6 @@ public:
 	
 };
 
-// Regular expression for parsing file text
-const char RegexParser::FILE_TEXT_REGEX[] = "<text\\[([0-9]{1,2})\\]>([\\S\\s]*?)</text>";
+
 
 #endif
