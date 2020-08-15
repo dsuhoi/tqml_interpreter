@@ -117,3 +117,42 @@ void MAIN_TEXT_WINDOW::UpdatePage()
 	TERM_WINDOW::Print(textBuffer[currentPage]);
 	TERM_WINDOW::Update();
 }
+
+// Print the text in the main text window
+void MAIN_TEXT_WINDOW::Print(char *text)
+{
+	// Check the pointer to the textBuffer
+	if(textBuffer != nullptr){
+		return;
+	}
+	// Set the value on the first page
+	currentPage = 0;
+	int fullArea = GetArea();
+	numChr = strlen(text);
+	// If one page...
+	if(numChr <= fullArea){
+		numPages = 1;
+	}
+	else{
+		// ...else processing number of pages
+		numPages = numChr / fullArea;
+		if(numChr % fullArea != 0){
+			++numPages;
+		}
+	}
+	
+	// Pointer to the main text
+	char *copyText = text;
+	// Create the text buffer
+	textBuffer = new char*[numPages];
+	textBuffer[0] = new char[(fullArea + 1) * numPages];
+	for(int i = 0; i < numPages; i++){
+		textBuffer[i] = textBuffer[0] + (fullArea + 1) * i;
+		// Copy text to the textBuffer page
+		strncpy(textBuffer[i], copyText, fullArea);
+		copyText = &copyText[fullArea];
+	}
+	
+	// Print the main text page
+	TERM_WINDOW::Print(textBuffer[currentPage]);
+}
