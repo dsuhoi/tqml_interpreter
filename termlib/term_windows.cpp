@@ -173,3 +173,20 @@ void MAIN_TEXT_WINDOW::Clear()
 	
 	TERM_WINDOW::Clear();
 }
+
+// Set/Get current page
+int &MAIN_TEXT_WINDOW::SetCurrentPage()
+{
+	return currentPage;
+}
+// Return the number of pages
+int MAIN_TEXT_WINDOW::GetNumPages()
+{
+	return numPages;
+}
+
+// Return the number of characters
+int MAIN_TEXT_WINDOW::GetNumChr()
+{
+	return numChr;
+}
