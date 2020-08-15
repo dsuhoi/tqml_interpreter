@@ -30,7 +30,9 @@ public:
 
 class RegexParser {
 private:
-	static const char TEXT_TEMPLATE[];
+	// Regular expression for parsing file text
+	static const char FILE_TEXT_REGEX[];
+	// Pointer to the text parts array
 	static char **textParts;
 public:
 	// Parsing the file text (Return an array with text parts)
@@ -53,6 +55,7 @@ public:
 	
 };
 
-const char RegexParser::TEXT_TEMPLATE[] = "<text\\[([0-9]{1,2})\\]>([\\S\\s]*?)</text>";
+// Regular expression for parsing file text
+const char RegexParser::FILE_TEXT_REGEX[] = "<text\\[([0-9]{1,2})\\]>([\\S\\s]*?)</text>";
 
 #endif
