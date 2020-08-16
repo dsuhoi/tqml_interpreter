@@ -59,7 +59,7 @@ bool Terminal::FinalTerminal()
 	delete inputWindow;
 	// End of the terminal
 	endwin();
-	
+	// If everything is OK, return the false value
 	return false;
 }
 

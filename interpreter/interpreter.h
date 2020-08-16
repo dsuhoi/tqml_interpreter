@@ -2,6 +2,7 @@
 #define __INTERPRETER_H__
 
 #include <map>
+#include <vector>
 #include <regex>
 
 
@@ -18,7 +19,7 @@ public:
 	// Empty constructor
 	TextLink();
 	// Main constructor
-	TextLink(int _link, char *_answer, char *_file = nullptr);
+	TextLink(int _link, const char *_answer, const char *_file = nullptr);
 	// Destructor
 	~TextLink();
 	// Return the pointer to the file name (char array)
@@ -34,6 +35,8 @@ class RegexParser {
 private:
 	// Regular expression for parsing file text
 	static const char FILE_TEXT_REGEX[];
+	static const char LINKS_TEXT_REGEX[];
+	static const char LINK_REGEX[];
 	// Map to the text parts and its link
 	static std::map<int, char*> textParts;
 	
@@ -43,7 +46,9 @@ public:
 	// Parsing the file text (Return an array with text parts) (false - OK, true - ERROR)
 	static bool ParseFile(char *fileText);
 	// Return the pointer to the text links from the text part
-	static TextLink *ParseLinks(char *part);
+	static bool ParseLinks(char *part, std::vector<TextLink> &vectLinks);
+	// Return the pointer to the main text
+	static char *ParseText(int link = 0);
 };
 
 
