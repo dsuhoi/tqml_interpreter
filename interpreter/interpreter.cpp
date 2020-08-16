@@ -5,7 +5,7 @@
 // Regular expression for parsing file text
 const char RegexParser::FILE_TEXT_REGEX[] = "<text\\[([0-9]{1,3})\\]>([\\S\\s]*?)</text>";
 const char RegexParser::LINKS_TEXT_REGEX[] = "<links>([\\S\\s]*)</links>";
-const char RegexParser::LINK_REGEX[] = "<&\\(\\S*)\\)\\[([0-9]{1,3})\\]=(.*?)=>";
+const char RegexParser::LINK_REGEX[] = "<&\\((\\S*)\\)\\[([0-9]{1,3})\\]\\s*\\=\\s*\"(.*?)\"\\s*>";
 
 
 // Empty constructor
@@ -29,6 +29,7 @@ TextLink::TextLink(int _link, const char *_answer, const char *_file)
 		strcpy(fileName, _file);
 	}
 	else{
+		// If the string is empty, set the nullptr
 		fileName = nullptr;
 	}
 }
@@ -36,6 +37,7 @@ TextLink::TextLink(int _link, const char *_answer, const char *_file)
 // Destructor
 TextLink::~TextLink()
 {
+	// Delete data from memory
 	if(textAnswer != nullptr){
 		delete [] textAnswer;
 	}
