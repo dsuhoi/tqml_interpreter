@@ -30,14 +30,33 @@ public:
 	int GetLink();
 };
 
+// Text block class
+class TextBlock {
+private:
+	// Vector with text links
+	std::vector<TextLink*> vectLinks;
+	// Main text in the text block
+	char *mainText;
+public:
+	// Constructor
+	TextBlock(char *fullText);
+	// Destructor
+	~TextBlock();
+	// Return a pointer to the main text from the block
+	char *GetMainText();
+	// Return a pointer to the text link object
+	TextLink *GetLink(char *Answer);
+};
+
 // Class for parsing text data
 class RegexParser {
 private:
 	// Regular expression for parsing file text
-	static const char FILE_TEXT_REGEX[];
+	static const char BLOCK_TEXT_REGEX[];
+	static const char PART_TEXT_REGEX[];
 	static const char LINKS_TEXT_REGEX[];
 	static const char LINK_REGEX[];
-	
+	static const char CARR_CHR_EQUAL[];
 	// Private constructor
 	RegexParser() {}
 public:
@@ -46,16 +65,16 @@ public:
 	// Return the pointer to the text links from the text part
 	static bool ParseLinks(char *part, std::vector<TextLink*> &vectLinks);
 	// Return the pointer to the main text
-	static char *ParseText(int link = 0);
+	static char *ParseText(char *part);
 };
 
 
 // TQML interpreter class
 class Interpreter {
 private:
-	std::vector<TextLink> vectLinks;
+	
 	// Map to the text parts and its link
-	std::map<int, char*> textParts;
+	std::map<int, TextBlock*> textParts;
 
 public:
 	// Constructor and Destructor
