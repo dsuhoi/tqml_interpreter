@@ -5,9 +5,7 @@
 // Regular expression for parsing file text
 const char RegexParser::FILE_TEXT_REGEX[] = "<text\\[([0-9]{1,3})\\]>([\\S\\s]*?)</text>";
 const char RegexParser::LINKS_TEXT_REGEX[] = "<links>([\\S\\s]*)</links>";
-const char RegexParser::LINK_REGEX[] = "<&\\([\\S]*)\\)\\[([0-9]{1,3})\\]=(.*?)=>";
-// Map to the text parts and its link
-std::map<int, char*> RegexParser::textParts;
+const char RegexParser::LINK_REGEX[] = "<&\\(\\S*)\\)\\[([0-9]{1,3})\\]=(.*?)=>";
 
 
 // Empty constructor
@@ -26,8 +24,13 @@ TextLink::TextLink(int _link, const char *_answer, const char *_file)
 	textAnswer = new char [strlen(_answer) + 1];
 	strcpy(textAnswer, _answer);
 	
-	fileName = new char [strlen(_file) + 1];
-	strcpy(fileName, _file);	
+	if(_file[0] != 0){
+		fileName = new char [strlen(_file) + 1];
+		strcpy(fileName, _file);
+	}
+	else{
+		fileName = nullptr;
+	}
 }
 
 // Destructor
@@ -61,7 +64,7 @@ int TextLink::GetLink()
 
 
 // Parsing the file text (Return an array with text parts) (false - OK, true - ERROR)
-bool RegexParser::ParseFile(char *fileText)
+bool RegexParser::ParseFile(char *fileText, std::map<int, char*> &textParts)
 {
 	// Check the map for elements
 	if(!textParts.empty()){
@@ -99,10 +102,14 @@ bool RegexParser::ParseFile(char *fileText)
 }
 
 // Return the pointer to the text links from the text part
-bool RegexParser::ParseLinks(char *part, std::vector<TextLink> &vectLinks)
+bool RegexParser::ParseLinks(char *part, std::vector<TextLink*> &vectLinks)
 {
 	// Check the vector for elements
 	if(!vectLinks.empty()){
+		// Delete the text links
+		for(auto it = vectLinks.begin(); it != vectLinks.end(); it++){
+			delete *it;
+		}
 		vectLinks.clear();
 	}
 	// Copy text to the string
@@ -124,11 +131,16 @@ bool RegexParser::ParseLinks(char *part, std::vector<TextLink> &vectLinks)
 	int link = -1;
 	// Parsing...
 	while(std::regex_search(LinkTextStr.c_str(), resultStr, regexTemplate)){
-		const char *fileName = resultStr.str(1).c_str();
 		link = atoi(resultStr.str(2).c_str());
-		const char *textAnswer = resultStr.str(3).c_str();
-		// Create a list with text links
-		vectLinks.push_back(TextLink(link, textAnswer, fileName));
+		// Create a vector with text links
+		TextLink *textLink = new TextLink(link, resultStr.str(3).c_str(), resultStr.str(1).c_str());
+		vectLinks.push_back(textLink);
+		// Next iteration of the loop
+		LinkTextStr = resultStr.suffix().str();
+	}
+	// If the links to the text parts are not founded, return the true value
+	if(link == -1){
+		return true;
 	}
 	// If everything is OK, return the false value
 	return false;

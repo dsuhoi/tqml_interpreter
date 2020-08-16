@@ -19,7 +19,7 @@ public:
 	// Empty constructor
 	TextLink();
 	// Main constructor
-	TextLink(int _link, const char *_answer, const char *_file = nullptr);
+	TextLink(int _link, const char *_answer, const char *_file);
 	// Destructor
 	~TextLink();
 	// Return the pointer to the file name (char array)
@@ -37,16 +37,14 @@ private:
 	static const char FILE_TEXT_REGEX[];
 	static const char LINKS_TEXT_REGEX[];
 	static const char LINK_REGEX[];
-	// Map to the text parts and its link
-	static std::map<int, char*> textParts;
 	
 	// Private constructor
 	RegexParser() {}
 public:
 	// Parsing the file text (Return an array with text parts) (false - OK, true - ERROR)
-	static bool ParseFile(char *fileText);
+	static bool ParseFile(char *fileText, std::map<int, char*> &textParts);
 	// Return the pointer to the text links from the text part
-	static bool ParseLinks(char *part, std::vector<TextLink> &vectLinks);
+	static bool ParseLinks(char *part, std::vector<TextLink*> &vectLinks);
 	// Return the pointer to the main text
 	static char *ParseText(int link = 0);
 };
@@ -55,7 +53,9 @@ public:
 // TQML interpreter class
 class Interpreter {
 private:
-	std::vector<std::string> vect;
+	std::vector<TextLink> vectLinks;
+	// Map to the text parts and its link
+	std::map<int, char*> textParts;
 
 public:
 	// Constructor and Destructor
