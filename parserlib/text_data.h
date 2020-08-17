@@ -32,6 +32,10 @@ class TextBlock {
 private:
 	// Vector with text links
 	std::vector<TextLink*> vectLinks;
+	// Extra text in the text block
+	char *extraText;
+	// Header text in the text block
+	char *headerText;
 	// Main text in the text block
 	char *mainText;
 public:
@@ -41,6 +45,10 @@ public:
 	~TextBlock();
 	// Return a pointer to the main text from the block
 	char *GetMainText();
+	// Return a pointer to the header text from the block
+	char *GetHeaderText();
+	// Return a pointer to the extra text from the block
+	char *GetExtraText();
 	// Return a pointer to the text link object
 	TextLink *GetLink(char *Answer);
 };

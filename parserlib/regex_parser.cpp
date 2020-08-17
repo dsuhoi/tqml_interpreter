@@ -5,7 +5,9 @@
 
 // Regular expression for parsing file text
 const char RegexParser::BLOCK_TEXT_REGEX[] = "<text\\[([0-9]{1,3})\\]>([\\S\\s]*?)</text>";
-const char RegexParser::PART_TEXT_REGEX[] = "<main>([\\S\\s]*?)</main>";
+const char RegexParser::MAIN_TEXT_REGEX[] = "<main>([\\S\\s]*?)</main>";
+const char RegexParser::HEADER_TEXT_REGEX[] = "<header>(.*?)</header>";
+const char RegexParser::EXTRA_TEXT_REGEX[] = "<info>([\\S\\s]*?)</info>";
 const char RegexParser::LINKS_TEXT_REGEX[] = "<links>([\\S\\s]*)</links>";
 const char RegexParser::LINK_REGEX[] = "<&\\((\\S*)\\)\\[([0-9]{1,3})\\]\\s*\\=\\s*\"(.*?)\"\\s*>";
 const char RegexParser::CARR_CHR_EQUAL[] = "<n>";
@@ -63,10 +65,9 @@ bool RegexParser::ParseLinks(const char *part, std::vector<TextLink*> &vectLinks
 	// Parsing result
 	std::cmatch resultStr;
 	// Regex template to search for
-	const std::regex regexTemplateForLinks(LINKS_TEXT_REGEX);
-	const std::regex regexTemplate(LINK_REGEX);
+	std::regex regexTemplate(LINKS_TEXT_REGEX);
 	// Preparation...
-	if(std::regex_search(linkTextStr.c_str(), resultStr, regexTemplateForLinks)){
+	if(std::regex_search(linkTextStr.c_str(), resultStr, regexTemplate)){
 		linkTextStr = resultStr.str(1);
 	}
 	else{
@@ -75,6 +76,7 @@ bool RegexParser::ParseLinks(const char *part, std::vector<TextLink*> &vectLinks
 	}
 	// Link to the text part
 	int link = -1;
+	regexTemplate = LINK_REGEX;
 	// Parsing...
 	while(std::regex_search(linkTextStr.c_str(), resultStr, regexTemplate)){
 		link = atoi(resultStr.str(2).c_str());
@@ -93,30 +95,67 @@ bool RegexParser::ParseLinks(const char *part, std::vector<TextLink*> &vectLinks
 }
 
 // Return the pointer to the main text
-char *RegexParser::ParseText(const char *part)
+bool RegexParser::ParseText(const char *part, char **mainText, char **headerText, char **extraText)
 {
+	// Check the pointer to the main text
+	if((*mainText) != nullptr){
+		delete [] (*mainText);
+		(*mainText) = nullptr;
+	}
+	// Check the pointer to the header text
+	if((*headerText) != nullptr){
+		delete [] (*headerText);
+		(*headerText) = nullptr;
+	}
+	// Check the pointer to the extra text
+	if((*extraText) != nullptr){
+		delete [] (*extraText);
+		(*extraText) = nullptr;
+	}
+	
 	// Copy text to the string
 	std::string textStr(part);
 	// Parsing result
 	std::cmatch resultStr;
 	// Regex template to search for
-	const std::regex regexTemplate(PART_TEXT_REGEX);
-	if(!std::regex_search(textStr.c_str(), resultStr, regexTemplate)){
-		// If the text is not founded, return the nullptr
-		return nullptr;
-	}
-	// Copy the main text to the string
-	textStr = resultStr.str(1);
+	std::regex regexTemplate("\n|\t");
 	// Delete all '\n' and '\t' characters from the main text
-	const std::regex regexWithoutN("\n|\t");
-	std::string replaceStr = std::regex_replace(textStr, regexWithoutN, "");
+	std::string replaceStr = std::regex_replace(textStr, regexTemplate, "");
 	// Replace the carriage strings with the '\n' characters
-	const std::regex regexCarr(CARR_CHR_EQUAL);
-	textStr = std::regex_replace(replaceStr, regexCarr, "\n");
-	// Create the text to return
-	int strLen = textStr.length();
-	char *finalText = new char[strLen + 1];
-	strcpy(finalText, textStr.c_str());
-	// Return the pointer to the main text
-	return finalText;
+	regexTemplate = CARR_CHR_EQUAL;
+	textStr = std::regex_replace(replaceStr, regexTemplate, "\n");
+	
+	// Find the main text
+	regexTemplate = MAIN_TEXT_REGEX;
+	if(std::regex_search(textStr.c_str(), resultStr, regexTemplate)){
+		// Create the main text
+		int strLen = resultStr.str(1).length();
+		(*mainText) = new char[strLen + 1];
+		strcpy((*mainText), resultStr.str(1).c_str());
+	}
+	else{
+		// If the text main is not founded, return the true value
+		return true;
+	}
+	
+	// Find the header text
+	regexTemplate = HEADER_TEXT_REGEX;
+	if(std::regex_search(textStr.c_str(), resultStr, regexTemplate)){
+		// Create the header text
+		int strLen = resultStr.str(1).length();
+		(*headerText) = new char[strLen + 1];
+		strcpy((*headerText), resultStr.str(1).c_str());
+	}
+	
+	// Find the extra text
+	regexTemplate = EXTRA_TEXT_REGEX;
+	if(std::regex_search(textStr.c_str(), resultStr, regexTemplate)){
+		// Create the extra text
+		int strLen = resultStr.str(1).length();
+		(*extraText) = new char[strLen + 1];
+		strcpy((*extraText), resultStr.str(1).c_str());
+	}
+	
+	// If everything is OK, return the false value
+	return false;
 }

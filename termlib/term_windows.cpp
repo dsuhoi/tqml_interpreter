@@ -1,4 +1,5 @@
 #include <cstring>
+#include <string>
 #include "term_windows.h"
 
 
@@ -29,8 +30,8 @@ TERM_WINDOW::TERM_WINDOW(int height, int width, int pos_y, int pos_x, chtype col
 // Destructor
 TERM_WINDOW::~TERM_WINDOW()
 {
-	delete main;
-	delete background;
+	delwin(main);
+	delwin(background);
 }
 
 // Function for adding a color scheme
@@ -60,13 +61,16 @@ void TERM_WINDOW::Print(char *text)
 	wprintw(main, text);
 }
 
-// Return the main subwindow area
-int TERM_WINDOW::GetArea()
+// Print the text in the main subwindow (mvwprintw)
+void TERM_WINDOW::Print(int x, int y, char *text)
 {
-	// Get the main subwindow size
-	int winWidth, winHeight;
-	getmaxyx(main, winHeight, winWidth);
-	return winWidth * winHeight;
+	mvwprintw(main, y, x, text);
+}
+	
+// Get the main subwindow width and height
+void TERM_WINDOW::GetWidthAndHeight(int &width, int &height)
+{
+	getmaxyx(main, height, width);
 }
 
 // Return a pointer to the main subwindow
@@ -100,8 +104,8 @@ TERM_WINDOW(height, width, pos_y, pos_x, colors)
 // Destructor
 MAIN_TEXT_WINDOW::~MAIN_TEXT_WINDOW()
 {
-	TERM_WINDOW::~TERM_WINDOW();
 	Clear();
+	TERM_WINDOW::~TERM_WINDOW();
 }
 
 // This function is an analog refresh() for two windows (main and background)
@@ -125,20 +129,27 @@ void MAIN_TEXT_WINDOW::Print(char *text)
 	if(textBuffer != nullptr){
 		return;
 	}
+	
 	// Set the value on the first page
 	currentPage = 0;
-	int fullArea = GetArea();
-	numChr = strlen(text);
-	// If one page...
-	if(numChr <= fullArea){
-		numPages = 1;
-	}
-	else{
-		// ...else processing number of pages
-		numPages = numChr / fullArea;
-		if(numChr % fullArea != 0){
-			++numPages;
+	int numChr = strlen(text);
+	// Get the window width and height
+	int width, height;
+	GetWidthAndHeight(width, height);
+	// Found the visual characters in the text ('\n', etc.)
+	int visualChr = 0;
+	for(int i = 0; i < numChr; i++){
+		if(text[i] == '\n'){
+			visualChr += width - (i + visualChr) % width - 1;
 		}
+	}
+	visualChr += numChr;
+	// Get the window area
+	int fullArea = width * height;
+	// Processing number of pages
+	numPages = visualChr / fullArea;
+	if(visualChr % fullArea != 0){
+		++numPages;
 	}
 	
 	// Pointer to the main text
@@ -147,10 +158,19 @@ void MAIN_TEXT_WINDOW::Print(char *text)
 	textBuffer = new char*[numPages];
 	textBuffer[0] = new char[(fullArea + 1) * numPages];
 	for(int i = 0; i < numPages; i++){
+		// Set the pointer to the text part
 		textBuffer[i] = textBuffer[0] + (fullArea + 1) * i;
+		// Get the visual characters number
+		int pageText = 0, index;
+		for(index = 0; index < static_cast<int>(strlen(copyText)) && (pageText + index) < fullArea; index++){
+			if(copyText[index] == '\n'){
+				pageText += width - (index + pageText) % width - 1;
+			}
+		}
 		// Copy text to the textBuffer page
-		strncpy(textBuffer[i], copyText, fullArea);
-		copyText = &copyText[fullArea];
+		strncpy(textBuffer[i], copyText, index);
+		textBuffer[i][index] = 0;
+		copyText = &copyText[index];
 	}
 	
 	// Print the main text page

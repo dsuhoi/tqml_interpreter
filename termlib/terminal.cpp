@@ -52,11 +52,21 @@ bool Terminal::FinalTerminal()
 	// Delete the text buffer from the main text window
 	ClearWindow(MAIN_TEXT);
 	// Delete all windows
-	delete headWindow;
-	delete mainTextWindow;
-	delete extraWindow;
-	delete systemWindow;
-	delete inputWindow;
+	if(headWindow != nullptr){
+		delete headWindow;
+	}
+	if(mainTextWindow != nullptr){
+		delete mainTextWindow;
+	}
+	if(extraWindow != nullptr){
+		delete extraWindow;
+	}
+	if(systemWindow != nullptr){
+		delete systemWindow;
+	}
+	if(inputWindow != nullptr){
+		delete inputWindow;
+	}
 	// End of the terminal
 	endwin();
 	// If everything is OK, return the false value
@@ -143,9 +153,14 @@ bool Terminal::ClearWindow(DISPLAY_WINDOWS windowName)
 // Print a text to the window (false - OK, true - ERROR)
 bool Terminal::PrintWindow(DISPLAY_WINDOWS windowName, char *text)
 {
+	if(text == nullptr){
+		return true;
+	}
+	int headWidth, headHeight;
 	switch(windowName){
 	case HEAD:
-		headWindow->Print(text);
+		headWindow->GetWidthAndHeight(headWidth, headHeight);
+		headWindow->Print((headWidth - strlen(text))/2, headHeight - 1, text);
 		headWindow->Update();
 		break;
 	case MAIN_TEXT:

@@ -12,7 +12,7 @@ private:
 	Filesystem(){}
 public:
 	// Read the text file (false - OK, true - ERROR)
-	static bool ReadFile(char *pathName, char *readText);
+	static bool ReadFile(char *pathName, char **readText);
 };
 
 #endif

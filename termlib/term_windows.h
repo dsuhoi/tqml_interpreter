@@ -23,8 +23,10 @@ public:
 	virtual void Clear();
 	// Print the text in the main subwindow (wprintw)
 	virtual void Print(char *text);
-	// Return the main subwindow area
-	int GetArea();
+	// Print the text in the main subwindow (mvwprintw)
+	void Print(int x, int y, char *text);
+	// Get the main subwindow width and height
+	void GetWidthAndHeight(int &width, int &height);
 	// Return a pointer to the main subwindow
 	WINDOW *GetMain();
 };

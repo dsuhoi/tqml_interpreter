@@ -64,12 +64,12 @@ int TextLink::GetLinkNum()
 // Constructor
 TextBlock::TextBlock(const char *fullText)
 {
-	if(RegexParser::ParseLinks(fullText, vectLinks)){
-		mainText = nullptr;
-	}
-	else{
-		mainText = RegexParser::ParseText(fullText);
-	}
+	mainText = nullptr;
+	headerText = nullptr;
+	extraText = nullptr;
+	
+	RegexParser::ParseLinks(fullText, vectLinks);
+	RegexParser::ParseText(fullText, &mainText, &headerText, &extraText);
 }
 
 // Destructor
@@ -86,12 +86,32 @@ TextBlock::~TextBlock()
 	if(mainText != nullptr){
 		delete [] mainText;
 	}
+	
+	if(headerText != nullptr){
+		delete [] headerText;
+	}
+	
+	if(extraText != nullptr){
+		delete [] extraText;
+	}
 }
 
 // Return a pointer to the main text from the block
 char *TextBlock::GetMainText()
 {
 	return mainText;
+}
+
+// Return a pointer to the header text from the block
+char *TextBlock::GetHeaderText()
+{
+	return headerText;
+}
+
+// Return a pointer to the extra text from the block
+char *TextBlock::GetExtraText()
+{
+	return extraText;
 }
 
 // Return a pointer to the text link object
