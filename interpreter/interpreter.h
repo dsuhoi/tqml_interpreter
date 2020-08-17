@@ -2,7 +2,7 @@
 #define __INTERPRETER_H__
 
 #include <map>
-#include "text_data.h"
+#include "../parserlib/text_data.h"
 
 
 // TQML interpreter class
