@@ -7,18 +7,22 @@
 // Constructor
 Interpreter::Interpreter()
 {
-	
+	mainPath = "";
+	currentPart = 0;
 }
 
 // Destructor
 Interpreter::~Interpreter()
 {
-		
+	mainPath.clear();
 }
 
 // Initialize the interpreter components
 int Interpreter::Initialize(char *_filePath)
 {
+	
+	Filesystem::GetDir(_filePath, mainPath);
+	
 	if(Terminal::InitTerminal()){
 		return 1;
 	}
@@ -26,10 +30,6 @@ int Interpreter::Initialize(char *_filePath)
 	if(Terminal::InitAllWindows()){
 		return 2;
 	}
-	
-	size_t strLen = strlen(_filePath);
-	filePath = new char[strLen];
-	strcpy(filePath, _filePath);
 	
 	char *readText = nullptr;
 	
@@ -48,7 +48,7 @@ int Interpreter::Initialize(char *_filePath)
 int Interpreter::Process()
 {
 	while(1){
-		Terminal::PrintWindow();
+		//
 		
 	}
 	

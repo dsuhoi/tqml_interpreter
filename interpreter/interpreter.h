@@ -2,7 +2,7 @@
 #define __INTERPRETER_H__
 
 #include <map>
-#include <cstring>
+#include <string>
 #include "../parserlib/text_data.h"
 
 
@@ -12,7 +12,7 @@ private:
 	// Map to the text parts and its link
 	std::map<int, TextBlock*> textParts;
 	int currentPart;
-	char *filePath;
+	std::string mainPath;
 public:
 	// Constructor
 	Interpreter();

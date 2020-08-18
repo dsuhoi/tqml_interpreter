@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <experimental/filesystem>
 
 namespace fs = std::experimental::filesystem;
@@ -13,6 +14,8 @@ private:
 public:
 	// Read the text file (false - OK, true - ERROR)
 	static bool ReadFile(char *pathName, char **readText);
+	// Get the absolute path
+	static void GetDir(char *filePath, std::string &str);
 };
 
 #endif

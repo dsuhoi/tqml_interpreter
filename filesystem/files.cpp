@@ -30,3 +30,11 @@ bool Filesystem::ReadFile(char *pathName, char **readText)
 	// If everything is OK, return the false value
 	return false;
 }
+
+// Get the absolute path
+void Filesystem::GetDir(char *filePath, std::string &str)
+{
+	fs::path pathToFile = fs::canonical(filePath);
+	str = pathToFile.parent_path().native() + '/';
+	return ;
+}

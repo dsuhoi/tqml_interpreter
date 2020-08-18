@@ -1,4 +1,6 @@
 #include "interpreter/interpreter.h"
+#include <iostream>
+
 
 int main(int argc, char **argv)
 {
@@ -11,6 +13,7 @@ int main(int argc, char **argv)
 	program->Initialize(argv[1]);
 	program->Process();
 	delete program; 
+
 	return 0;
 }
 

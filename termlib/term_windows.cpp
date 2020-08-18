@@ -125,9 +125,14 @@ void MAIN_TEXT_WINDOW::UpdatePage()
 // Print the text in the main text window
 void MAIN_TEXT_WINDOW::Print(char *text)
 {
+	// Check the pointer to the input text
+	if(text == nullptr || text[0] == 0){
+		return;
+	}
+	
 	// Check the pointer to the textBuffer
 	if(textBuffer != nullptr){
-		return;
+		Clear();
 	}
 	
 	// Set the value on the first page
