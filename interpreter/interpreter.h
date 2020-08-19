@@ -5,6 +5,7 @@
 #include <map>
 #include "../parserlib/text_data.h"
 
+
 // TQML interpreter functions
 
 // Initialize the interpreter components
