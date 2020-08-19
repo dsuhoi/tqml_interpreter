@@ -1,0 +1,180 @@
+<text[1]>
+	<header>Overview</header>
+	<info></info>
+	<main>
+		Unix was originally meant to be a convenient platform for programmers developing software to be run on it and on other systems, rather 
+		than for non-programmers. The system grew larger as the operating system started spreading in academic circles, and as users 
+		added their own tools to the system and shared them with colleagues.<n><n>
+		
+		At first, Unix was not designed to be portable or for multi-tasking. Later, Unix gradually gained portability, multi-tasking and multi-user 
+		capabilities in a time-sharing configuration. Unix systems are characterized by various concepts: the use of plain text for storing data; 
+		a hierarchical file system; treating devices and certain types of inter-process communication (IPC) as files; and the use of a large number 
+		of software tools, small programs that can be strung together through a command-line interpreter using pipes, as opposed to using a 
+		single monolithic program that includes all of the same functionality. These concepts are collectively known as the "Unix philosophy". 
+		Brian Kernighan and Rob Pike summarize this in The Unix Programming Environment as "the idea that the power of a system comes more from 
+		the relationships among programs than from the programs themselves".<n><n>
+		
+		By the early 1980s, users began seeing Unix as a potential universal operating system, suitable for computers of all sizes. The Unix 
+		environment and the client-server program model were essential elements in the development of the Internet and the reshaping of computing 
+		as centered in networks rather than in individual computers.<n><n>
+		
+		Both Unix and the C programming language were developed by AT&T and distributed to government and academic institutions, which led to both 
+		being ported to a wider variety of machine families than any other operating system.<n><n>
+		
+		The Unix operating system consists of many libraries and utilities along with the master control program, the kernel. The kernel provides 
+		services to start and stop programs, handles the file system and other common "low-level" tasks that most programs share, and schedules 
+		access to avoid conflicts when programs try to access the same resource or device simultaneously. To mediate such access, the kernel has 
+		special rights, reflected in the distinction of kernel space from user space, the latter being a priority realm where most application 
+		programs operate.<n><n>
+		
+		Enter a "Return" to return to the main page.
+	</main>
+	
+	<links>
+		<&(unix.txt)[0] = "Return">
+	</links>
+	
+</text>
+
+
+<text[2]>
+	<header>History</header>
+	<info></info>
+	<main>
+		The origins of Unix date back to the mid-1960s when the Massachusetts Institute of Technology, Bell Labs, and General Electric were 
+		developing Multics, a time-sharing operating system for the GE-645 mainframe computer. Multics featured several innovations, but 
+		also presented severe problems. Frustrated by the size and complexity of Multics, but not by its goals, individual researchers at Bell 
+		Labs started withdrawing from the project. The last to leave were Ken Thompson, Dennis Ritchie, Douglas McIlroy, and Joe Ossanna, who 
+		decided to reimplement their experiences in a new project of smaller scale. This new operating system was initially without organizational 
+		backing, and also without a name.<n><n>
+		
+		The new operating system was a single-tasking system. In 1970, the group coined the name Unics for Uniplexed Information and Computing 
+		Service (pronounced "eunuchs"), as a pun on Multics, which stood for Multiplexed Information and Computer Services. Brian Kernighan takes 
+		credit for the idea, but adds that "no one can remember" the origin of the final spelling Unix. Dennis Ritchie, Doug McIlroy, and 
+		Peter G. Neumann also credit Kernighan.<n><n>
+		
+		The operating system was originally written in assembly language, but in 1973, Version 4 Unix was rewritten in C. Version 4 Unix, however, 
+		still had many PDP-11 dependent codes, and was not suitable for porting. The first port to another platform was made five years later (1978) 
+		for Interdata 8/32.<n><n>
+		
+		Bell Labs produced several versions of Unix that are collectively referred to as "Research Unix". In 1975, the first source license for 
+		UNIX was sold to Donald B. Gillies at the University of Illinois at Urbana–Champaign Department of Computer Science. UIUC graduate 
+		student Greg Chesson, who had worked on the UNIX kernel at Bell Labs, was instrumental in negotiating the terms of the license.<n><n>
+		
+		During the late 1970s and early 1980s, the influence of Unix in academic circles led to large-scale adoption of Unix (BSD and System V) by 
+		commercial startups, including Sequent, HP-UX, SunOS/Solaris, AIX, and Xenix. In the late 1980s, AT&T Unix System Laboratories and Sun 
+		Microsystems developed System V Release 4 (SVR4), which was subsequently adopted by many commercial Unix vendors.<n><n>
+		
+		In the 1990s, Unix and Unix-like systems grew in popularity and became the operating system of choice for over 90% of the world's top 500 
+		fastest supercomputers, as BSD and Linux distributions were developed through collaboration by a worldwide network of programmers. 
+		In 2000, Apple released Darwin, also a Unix system, which became the core of the Mac OS X operating system, which was later renamed macOS.<n><n>
+		
+		Unix operating systems are widely used in modern servers, workstations, and mobile devices.<n><n>
+		
+		Enter a "Return" to return to the main page.
+	</main>
+	
+	<links>
+		<&(unix.txt)[0] = "Return">
+	</links>
+	
+</text>
+
+
+
+<text[3]>
+	<header>Standards</header>
+	<info></info>
+	<main>
+		In the late 1980s, an open operating system standardization effort now known as POSIX provided a common baseline for all operating systems; 
+		IEEE based POSIX around the common structure of the major competing variants of the Unix system, publishing the first POSIX standard in 1988. 
+		In the early 1990s, a separate but very similar effort was started by an industry consortium, the Common Open Software Environment (COSE) 
+		initiative, which eventually became the Single UNIX Specification (SUS) administered by The Open Group. Starting in 1998, the Open Group and 
+		IEEE started the Austin Group, to provide a common definition of POSIX and the Single UNIX Specification, which, by 2008, had become the Open 
+		Group Base Specification.<n><n>
+		
+		In 1999, in an effort towards compatibility, several Unix system vendors agreed on SVR4's Executable and Linkable Format (ELF) as the 
+		standard for binary and object code files. The common format allows substantial binary compatibility among different Unix systems operating 
+		on the same CPU architecture.<n><n>
+		
+		The Filesystem Hierarchy Standard was created to provide a reference directory layout for Unix-like operating systems; it has mainly been 
+		used in Linux.<n><n>
+		Enter a "Return" to return to the main page.
+	</main>
+	
+	<links>
+		<&(unix.txt)[0] = "Return">
+	</links>
+	
+</text>
+
+
+
+<text[4]>
+	<header>Components</header>
+	<info></info>
+	<main>
+		The Unix system is composed of several components that were originally packaged together. By including the development environment, 
+		libraries, documents and the portable, modifiable source code for all of these components, in addition to the kernel of an operating 
+		system, Unix was a self-contained software system. This was one of the key reasons it emerged as an important teaching and learning 
+		tool and has had such a broad influence.[according to whom?]<n><n>
+		
+		The inclusion of these components did not make the system large - the original V7 UNIX distribution, consisting of copies of all of 
+		the compiled binaries plus all of the source code and documentation occupied less than 10 MB and arrived on a single nine-track magnetic 
+		tape. The printed documentation, typeset from the online sources, was contained in two volumes.<n><n>
+		
+		The names and filesystem locations of the Unix components have changed substantially across the history of the system. Nonetheless, 
+		the V7 implementation is considered by many[who?] to have the canonical early structure:<n>
+
+		Kernel - source code in /usr/sys, composed of several sub-components:<n>
+		    conf - configuration and machine-dependent parts, including boot code<n>
+		    dev - device drivers for control of hardware (and some pseudo-hardware)<n>
+		    sys - operating system "kernel", handling memory management, process scheduling, system calls, etc.<n>
+		    h - header files, defining key structures within the system and important system-specific invariables<n>
+		Development environment – early versions of Unix contained a development environment sufficient to recreate the entire system 
+		from source code:<n>
+		    cc - C language compiler (first appeared in V3 Unix)<n>
+		    as - machine-language assembler for the machine<n>
+		    ld - linker, for combining object files<n>
+		    lib - object-code libraries (installed in /lib or /usr/lib). libc, the system library with C run-time support, 
+		    was the primary library, but there have always been additional libraries for things such as mathematical functions 
+		    (libm) or database access. V7 Unix introduced the first version of the modern "Standard I/O" library stdio as part of 
+		    the system library. Later implementations increased the number of libraries significantly.<n>
+		    make - build manager (introduced in PWB/UNIX), for effectively automating the build process<n>
+		    include  header files for software development, defining standard interfaces and system invariants<n>
+		    Other languages - V7 Unix contained a Fortran-77 compiler, a programmable arbitrary-precision calculator (bc, dc), and the awk 
+		    scripting language; later versions and implementations contain many other language compilers and toolsets. Early BSD releases 
+		    included Pascal tools, and many modern Unix systems also include the GNU Compiler Collection as well as or instead of a 
+		    proprietary compiler system.<n>
+		    Other tools - including an object-code archive manager (ar), symbol-table lister (nm), compiler-development tools 
+		    (e.g. lex & yacc), and debugging tools.<n>
+		Commands - Unix makes little distinction between commands (user-level programs) for system operation and maintenance (e.g. cron), 
+		commands of general utility (e.g. grep), and more general-purpose applications such as the text formatting and typesetting package. 
+		Nonetheless, some major categories are:<n>
+		    sh - the "shell" programmable command-line interpreter, the primary user interface on Unix before window systems appeared, 
+		    and even afterward (within a "command window").<n>
+		    Utilities - the core toolkit of the Unix command set, including cp, ls, grep, find and many others. Subcategories include:<n>
+		        System utilities - administrative tools such as mkfs, fsck, and many others.<n>
+		        User utilities - environment management tools such as passwd, kill, and others.<n>
+		    Document formatting - Unix systems were used from the outset for document preparation and typesetting systems, and included many 
+		    related programs such as nroff, troff, tbl, eqn, refer, and pic. Some modern Unix systems also include packages such as TeX and 
+		    Ghostscript.<n>
+		    Graphics – the plot subsystem provided facilities for producing simple vector plots in a device-independent format, with 
+		    device-specific interpreters to display such files. Modern Unix systems also generally include X11 as a standard windowing 
+		    system and GUI, and many support OpenGL.<n>
+		    Communications – early Unix systems contained no inter-system communication, but did include the inter-user communication programs 
+		    mail and write. V7 introduced the early inter-system communication system UUCP, and systems beginning with BSD release 4.1c 
+		    included TCP/IP utilities.<n>
+		Documentation – Unix was the first[citation needed] operating system to include all of its documentation online in machine-readable 
+		form. The documentation included:<n>
+		    man – manual pages for each command, library component, system call, header file, etc.<n>
+            doc – longer documents detailing major subsystems, such as the C language and troff<n><n>
+		Enter a "Return" to return to the main page.
+	</main>
+	
+	<links>
+		<&(unix.txt)[0] = "Return">
+	</links>
+	
+</text>
+

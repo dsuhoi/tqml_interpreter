@@ -1,0 +1,116 @@
+<text[0]>
+
+	<header>UNIX (Wikipedia)</header>
+	
+	<info>Site: https://en.wikipedia.org/wiki/Unix<n>This is test text quest (navigator) on a wiki page.<n></info>
+	
+	<main>
+		Unix is a family of multitasking, multiuser computer operating systems that derive from the original AT&T Unix, 
+		development starting in the 1970s at the Bell Labs research center by Ken Thompson, Dennis Ritchie, and others.<n><n>
+		Initially intended for use inside the Bell System, AT&T licensed Unix to outside parties in the late 1970s, leading 
+		to a variety of both academic and commercial Unix variants from vendors including University of California, Berkeley 
+		(BSD), Microsoft (Xenix), Sun Microsystems (SunOS/Solaris), HP/HPE (HP-UX), and IBM (AIX). In the early 1990s, AT&T 
+		sold its rights in Unix to Novell, which then sold its Unix business to the Santa Cruz Operation (SCO) in 1995. 
+		The UNIX trademark passed to The Open Group, a neutral industry consortium founded in 1996, which allows the use of 
+		the mark for certified operating systems that comply with the Single UNIX Specification (SUS). However, Novell continues 
+		to own the Unix copyrights, which the SCO Group, Inc. v. Novell, Inc. court case (2010) confirmed.<n><n>
+		
+		Unix systems are characterized by a modular design that is sometimes called the "Unix philosophy". 
+		According to this philosophy, the operating system should provide a set of simple tools, each of which performs a 
+		limited, well-defined function. A unified filesystem (the Unix filesystem) and an inter-process communication mechanism 
+		known as "pipes" serve as the main means of communication, and a shell scripting and command language (the Unix shell) is 
+		used to combine the tools to perform complex workflows.<n><n>
+
+		Unix distinguishes itself from its predecessors as the first portable operating system: almost the entire operating system is 
+		written in the C programming language, which allows Unix to operate on numerous platforms.<n><n>
+		Contents (Enter a number to search for):<n>
+		
+		1. Overview<n>
+		2. History<n>
+		3. Standards<n>
+		4. Components<n>
+		5. Impact<n>
+		6. Branding<n>
+		7. See also<n>
+		8. Further reading<n>
+		9. External links<n>
+	</main>
+	
+	<links>
+		<&(file.txt)[1] = "1">
+		<&(file.txt)[2] = "2">
+		<&(file.txt)[3] = "3">
+		<&(file.txt)[4] = "4">
+		<&(dir/file2.txt)[5] = "5">
+		<&(file3.txt)[6] = "6">
+		<&(file3.txt)[7] = "7">
+		<&()[8] = "8">
+		<&()[9] = "9">
+	</links>
+	
+</text>
+
+<text[9]>
+	<header>External links</header>
+	<info></info>
+	<main>
+		The UNIX Standard, at The Open Group.<n><n>
+		AT&T Archives: The UNIX Operating System on YouTube<n><n>
+		The Evolution of the Unix Time-sharing System at the Wayback Machine (archived April 8, 2015)<n><n>
+		The Creation of the UNIX Operating System at the Wayback Machine (archived April 2, 2014)<n><n>
+		The Unix Tree: files from historic releases<n><n>
+		Unix at Curlie<n><n>
+		The Unix 1st Edition Manuals.<n><n>
+		1982 film about Unix featuring Dennis Ritchie, Ken Thompson, Brian Kernighan, Alfred Aho, and more<n><n>
+		audio bsdtalk170 - Marshall Kirk McKusick at DCBSDCon -- on history of tcp/ip (in BSD) -- abridgement 
+		of the three lectures on the history of BSD.<n><n>
+		A History of UNIX before Berkeley: UNIX Evolution: 1975-1984<n><n>
+		BYTE Magazine, September 1986: UNIX and the MC68000 – a software 
+		perspective on the MC68000 CPU architecture and UNIX compatibility<n><n>
+		Request a login to try some Unix systems on vintage hardware at Living Computers: Museum + Labs.<n><n>
+		Enter a "Return" to return to the main page.
+	</main>
+	
+	<links>
+		<&()[0] = "Return">
+	</links>
+	
+</text>
+
+<text[8]>
+
+	<header>Further reading</header>
+	<info></info>
+	<main>
+		General<n><n>
+
+		Ritchie, D.M.; Thompson, K. (July–August 1978). "The UNIX Time-Sharing System". Bell System Technical Journal. 57. 
+		Archived from the original on November 3, 2010.<n>
+		"UNIX History". www.levenez.com. Retrieved March 17, 2005.<n>
+		"AIX, FreeBSD, HP-UX, Linux, Solaris, Tru64". UNIXguide.net. Retrieved March 17, 2005.<n>
+		"Linux Weekly News, February 21, 2002". lwn.net. Retrieved April 7, 2006.<n>
+		Lions, John: Lions' "Commentary on the Sixth Edition UNIX Operating System". with Source Code, Peer-to-Peer 
+		Communications, 1996; ISBN 1-57398-013-7<n><n>
+
+		Books<n><n>
+
+		Salus, Peter H.: A Quarter Century of UNIX, Addison Wesley, June 1, 1994; ISBN 0-201-54777-5<n><n>
+
+		Television<n><n>
+
+		Computer Chronicles (1985). "UNIX".<n>
+		Computer Chronicles (1989). "Unix".<n><n>
+
+		Talks<n><n>
+
+		Ken Thompson (2019). "VCF East 2019 -- Brian Kernighan interviews Ken Thompson" (Interview).<n>
+		Dr Marshall Kirk McKusick (2006). History of the Berkeley Software Distributions (three one-hour lectures).<n><n>
+		Enter a "Return" to return to the main page.
+	</main>
+	
+	<links>
+		<&()[0] = "Return">
+	</links>
+	
+</text>
+

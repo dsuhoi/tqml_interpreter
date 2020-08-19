@@ -1,0 +1,69 @@
+<text[6]>
+	<header>Branding</header>
+	<info></info>
+	<main>
+		In October 1993, Novell, the company that owned the rights to the Unix System V source at the time, transferred the trademarks of Unix 
+		to the X/Open Company (now The Open Group), and in 1995 sold the related business operations to Santa Cruz Operation (SCO). Whether 
+		Novell also sold the copyrights to the actual software was the subject of a federal lawsuit in 2006, SCO v. Novell, which Novell won. 
+		The case was appealed, but on August 30, 2011, the United States Court of Appeals for the Tenth Circuit affirmed the trial decisions, 
+		closing the case. Unix vendor SCO Group Inc. accused Novell of slander of title.<n><n>
+		
+		The present owner of the trademark UNIX is The Open Group, an industry standards consortium. Only systems fully compliant with and 
+		certified to the Single UNIX Specification qualify as "UNIX" (others are called "Unix-like").<n><n>
+		
+		By decree of The Open Group, the term "UNIX" refers more to a class of operating systems than to a specific implementation of an operating 
+		system; those operating systems which meet The Open Group's Single UNIX Specification should be able to bear the UNIX 98 or UNIX 03 
+		trademarks today, after the operating system's vendor pays a substantial certification fee and annual trademark royalties to The Open Group. 
+		Systems that have been licensed to use the UNIX trademark include AIX, EulerOS, HP-UX, Inspur K-UX, IRIX, macOS, Solaris, Tru64 UNIX 
+		(formerly "Digital UNIX", or OSF/1), and z/OS. Notably, EulerOS and Inspur K-UX are Linux distributions certified as UNIX 03 compliant.<n><n>
+		
+		Sometimes a representation like Un*x, *NIX, or *N?X is used to indicate all operating systems similar to Unix. This comes from the use of 
+		the asterisk (*) and the question mark characters as wildcard indicators in many utilities. This notation is also used to describe other 
+		Unix-like systems that have not met the requirements for UNIX branding from the Open Group.<n><n>
+		
+		The Open Group requests that UNIX is always used as an adjective followed by a generic term such as system to help avoid the creation of a 
+		genericized trademark.<n><n>
+		
+		Unix was the original formatting,[disputed – discuss] but the usage of UNIX remains widespread because it was once typeset in small caps 
+		(Unix). According to Dennis Ritchie, when presenting the original Unix paper to the third Operating Systems Symposium of the American 
+		Association for Computing Machinery (ACM), "we had a new typesetter and troff had just been invented and we were intoxicated by being 
+		able to produce small caps". Many of the operating system's predecessors and contemporaries used all-uppercase lettering, so many people 
+		wrote the name in upper case due to force of habit. It is not an acronym.<n><n>
+		
+		Trademark names can be registered by different entities in different countries and trademark laws in some countries allow the same trademark 
+		name to be controlled by two different entities if each entity uses the trademark in easily distinguishable categories. The result is that Unix 
+		has been used as a brand name for various products including bookshelves, ink pens, bottled glue, diapers, hair driers and food containers.<n><n>
+		
+		Several plural forms of Unix are used casually to refer to multiple brands of Unix and Unix-like systems. Most common is the conventional 
+		Unixes, but Unices, treating Unix as a Latin noun of the third declension, is also popular. The pseudo-Anglo-Saxon plural form Unixen is not 
+		common, although occasionally seen. Sun Microsystems, developer of the Solaris variant, has asserted that the term Unix is itself plural, 
+		referencing its many implementations.<n><n>
+		
+		Enter a "Return" to return to the main page.
+	</main>
+	
+	<links>
+		<&(unix.txt)[0] = "Return">
+	</links>
+	
+</text>
+
+<text[7]>
+	<header>See also</header>
+	<info></info>
+	<main>
+		Comparison of operating systems and open-source and closed-source software<n>
+		List of operating systems, Unix systems, and Unix commands<n>
+		Market share of operating systems<n>
+		Timeline of operating systems<n>
+		Plan 9 from Bell Labs<n>
+		Unix time<n>
+		Year 2038 problem<n><n>
+		Enter a "Return" to return to the main page.
+	</main>
+	
+	<links>
+		<&(unix.txt)[0] = "Return">
+	</links>
+	
+</text>
