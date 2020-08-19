@@ -13,7 +13,7 @@ const char RegexParser::LINK_REGEX[] = "<&\\((\\S*)\\)\\[([0-9]{1,3})\\]\\s*\\=\
 const char RegexParser::CARR_CHR_EQUAL[] = "<n>";
 
 
-// Parsing the file text (Return an array with text parts) (false - OK, true - ERROR)
+// Parsing the file text (false - OK, true - ERROR)
 bool RegexParser::ParseFile(char *fileText, std::map<int, TextBlock*> &textParts)
 {
 	// Check the map for elements
@@ -49,7 +49,7 @@ bool RegexParser::ParseFile(char *fileText, std::map<int, TextBlock*> &textParts
 	return false;
 }
 
-// Return the pointer to the text links from the text part
+// Get the vector with text links from the text part (false - OK, true - ERROR)
 bool RegexParser::ParseLinks(const char *part, std::vector<TextLink*> &vectLinks)
 {
 	// Check the vector for elements
@@ -94,7 +94,7 @@ bool RegexParser::ParseLinks(const char *part, std::vector<TextLink*> &vectLinks
 	return false;
 }
 
-// Return the pointer to the main text
+// Get the pointers to the main, header and extra text (false - OK, true - ERROR)
 bool RegexParser::ParseText(const char *part, char **mainText, char **headerText, char **extraText)
 {
 	// Check the pointer to the main text

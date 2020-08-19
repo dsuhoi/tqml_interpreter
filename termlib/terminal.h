@@ -64,6 +64,8 @@ private:
 	static void UpdateWindow(DISPLAY_WINDOWS windowName);
 	// Initialization of the color scheme
 	static void InitAllColors();
+	// Clear a text in the window (false - OK, true - ERROR)
+	static bool ClearWindow(DISPLAY_WINDOWS windowName);
 	// Scanning input text from the input window
 	static void ScanInputWindow();
 public:
@@ -73,14 +75,12 @@ public:
 	static bool InitAllWindows();
 	// End of terminal functions (false - OK, true - ERROR)
 	static bool FinalTerminal();
-	// Clear a text in the window (false - OK, true - ERROR)
-	static bool ClearWindow(DISPLAY_WINDOWS windowName);
 	// Print a text to the window (false - OK, true - ERROR)
 	static bool PrintWindow(DISPLAY_WINDOWS windowName, char *text);
 	// Print the system information to the window (false - OK, true - ERROR)
 	static void PrintSystemWindow(char *exceptionText = nullptr);
-	// The main loop to enter keys on the keyboard
-	static void InputLoop();
+	// The main loop to enter keys on the keyboard (false - OK, true - ERROR)
+	static bool InputLoop();
 	// Return a pointer to the inputBuffer Array
 	static char *GetAnswer();
 };

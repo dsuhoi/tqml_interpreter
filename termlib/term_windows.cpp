@@ -137,7 +137,7 @@ void MAIN_TEXT_WINDOW::Print(char *text)
 	
 	// Set the value on the first page
 	currentPage = 0;
-	int numChr = strlen(text);
+	numChr = strlen(text);
 	// Get the window width and height
 	int width, height;
 	GetWidthAndHeight(width, height);

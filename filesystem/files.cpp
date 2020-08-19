@@ -14,7 +14,6 @@ bool Filesystem::ReadFile(char *pathName, char **readText)
 	if((*readText) != nullptr){
 		delete [] (*readText);
 		(*readText) = nullptr;
-		std::cout << "Helllooooo!!!\n";
 	}
 	
 	// ONLY FOR UNIX !!!

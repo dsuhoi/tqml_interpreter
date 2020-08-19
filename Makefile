@@ -23,7 +23,7 @@ main.o: main.cpp
 
 interpreter.o: interpreter/interpreter.cpp interpreter/interpreter.h parserlib/text_data.h parserlib/regex_parser.h
 	$(CC) $(CFLAGS) interpreter/interpreter.cpp
-	
+
 text_data.o: parserlib/text_data.cpp parserlib/text_data.h parserlib/regex_parser.h
 	$(CC) $(CFLAGS) parserlib/text_data.cpp
 	

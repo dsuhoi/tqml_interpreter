@@ -43,14 +43,17 @@ void Terminal::InitAllColors()
 // End of terminal functions (false - OK, true - ERROR)
 bool Terminal::FinalTerminal()
 {
+	// Delete the text buffer from the main text window
+	ClearWindow(MAIN_TEXT);
+	
 	// Disable the keyboard handler
 	cbreak();
 	keypad(inputWindow->GetMain(), false);
+	
 	// Enable the display of cursor and characters
 	curs_set(1);
 	echo();
-	// Delete the text buffer from the main text window
-	ClearWindow(MAIN_TEXT);
+	
 	// Delete all windows
 	if(headWindow != nullptr){
 		delete headWindow;
@@ -67,8 +70,10 @@ bool Terminal::FinalTerminal()
 	if(inputWindow != nullptr){
 		delete inputWindow;
 	}
+	
 	// End of the terminal
 	endwin();
+	
 	// If everything is OK, return the false value
 	return false;
 }
@@ -156,6 +161,9 @@ bool Terminal::PrintWindow(DISPLAY_WINDOWS windowName, char *text)
 	if(text == nullptr){
 		return true;
 	}
+	
+	ClearWindow(windowName);
+	
 	int headWidth, headHeight;
 	switch(windowName){
 	case HEAD:
@@ -221,10 +229,13 @@ void Terminal::ScanInputWindow()
 
 
 // The main loop to enter keys on the keyboard
-void Terminal::InputLoop()
+bool Terminal::InputLoop()
 {
 	// This is the ENTER key of the keyboard
 	const int ENTER = 10;
+	// ESC key of the keyboard
+	const int ESC = 27;
+	
 	int currentTextPage = mainTextWindow->SetCurrentPage();
 	int numTextPages = mainTextWindow->GetNumPages();
 	// Infinite loop
@@ -254,11 +265,15 @@ void Terminal::InputLoop()
 			mainTextWindow->UpdatePage();
 			PrintSystemWindow();
 			break;
+		case ESC:
+			// End of the program
+			return true;
+			break;
 		case ENTER:
 			// Scan the input text
 			ScanInputWindow();
-			// Return from the function
-			return;
+			// If everything is OK, return the false value
+			return false;
 			break;
 		default:
 			break;

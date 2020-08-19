@@ -81,6 +81,8 @@ TextBlock::~TextBlock()
 		for(auto it = vectLinks.begin(); it != vectLinks.end(); it++){
 			delete *it;
 		}
+		// Erase all elements
+		vectLinks.clear();
 	}
 	// Delete the memory for text data
 	if(mainText != nullptr){
