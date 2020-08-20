@@ -10,7 +10,7 @@ MAIN_TEXT_WINDOW *Terminal::mainTextWindow = nullptr;
 TERM_WINDOW *Terminal::inputWindow = nullptr;
 TERM_WINDOW *Terminal::extraWindow = nullptr;
 TERM_WINDOW *Terminal::systemWindow = nullptr;
-
+TERM_WINDOW *Terminal::helpWindow = nullptr;
 
 // Initialization of terminal functions (false - OK, true - ERROR)
 bool Terminal::InitTerminal()
@@ -122,6 +122,12 @@ bool Terminal::InitAllWindows()
 		return true;
 	}
 	
+	
+	if(!(helpWindow = new TERM_WINDOW(HELP_HEIGHT, HELP_WIDTH, (scrHeight - HELP_HEIGHT)/2, (scrWidth - HELP_WIDTH)/2, COLOR_PAIR(BLUE)))){
+		return true;
+	}
+	
+	
 	// Сlear the array of input characters
 	memset(inputBuffer, 0, INPUT_BUFFER_LEN);
 	
@@ -205,6 +211,29 @@ void Terminal::PrintSystemWindow(char *exceptionText)
 	mvwprintw(printWindow, 2, 1, "Exception: %s", exceptionText);
 	systemWindow->Update();
 }
+
+// Printing help window
+void Terminal::PrintHelpWindow()
+{
+	// Clear the help window
+	helpWindow->Clear();
+	// Print the help window
+	helpWindow->Print((char*)
+	"\t\t  HELP\n"
+	"LEFT or RIGHT - navigate between pages\n"
+	"ENTER - entering the answer\n"
+	"ESC - program exit\n"
+	"  Interpreter created by DSuhoi (2020):\n"
+	"https://github.com/DSuhoi/tqml_interpreter\n"
+	"      <Press any key to continue...>");
+	// Update the window
+	helpWindow->Update();
+	// Pause
+	getchar();
+	// Clear the help window
+	helpWindow->Clear();
+}
+
 
 // Scanning input text from the input window
 void Terminal::ScanInputWindow()

@@ -33,6 +33,10 @@ const int INDENT_HEIGHT = 15;
 // Height of the title window
 const int HEAD_HEIGHT = 3;
 
+// Height and width of the help window
+const int HELP_HEIGHT = 9;
+const int HELP_WIDTH = 45;
+
 // Height of the input, extra and system windows
 const int WINDOW_HEIGHT = 5;
 
@@ -57,7 +61,9 @@ private:
 	static TERM_WINDOW *extraWindow;
 	// Window for displaying the system information
 	static TERM_WINDOW *systemWindow;
-
+	// Window for displaying the help information
+	static TERM_WINDOW *helpWindow;
+	
 	// Private constructor
 	Terminal(){}
 	// Analog refresh() function for the windows
@@ -79,6 +85,8 @@ public:
 	static bool PrintWindow(DISPLAY_WINDOWS windowName, char *text);
 	// Print the system information to the window (false - OK, true - ERROR)
 	static void PrintSystemWindow(char *exceptionText = nullptr);
+	// Printing help window
+	static void PrintHelpWindow();
 	// The main loop to enter keys on the keyboard (false - OK, true - ERROR)
 	static bool InputLoop();
 	// Return a pointer to the inputBuffer Array

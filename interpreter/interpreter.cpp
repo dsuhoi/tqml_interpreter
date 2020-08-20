@@ -37,6 +37,9 @@ int Initialize(char *_filePath, std::map<int, TextBlock*> &textParts, std::strin
 int Process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
 {
 	int currentPart = 0;
+	// Print the help information
+	Terminal::PrintHelpWindow();
+	
 	// Main loop
 	while(1){
 		// Pointers to text blocks and their text links
