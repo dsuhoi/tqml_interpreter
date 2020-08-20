@@ -15,6 +15,7 @@ private:
 	static const char LINKS_TEXT_REGEX[];
 	static const char LINK_REGEX[];
 	static const char CARR_CHR_EQUAL[];
+	static const char TAB_CHR_EQUAL[];
 	// Private constructor
 	RegexParser() {}
 public:

@@ -11,7 +11,7 @@ const char RegexParser::EXTRA_TEXT_REGEX[] = "<info>([\\S\\s]*?)</info>";
 const char RegexParser::LINKS_TEXT_REGEX[] = "<links>([\\S\\s]*)</links>";
 const char RegexParser::LINK_REGEX[] = "<&\\((\\S*)\\)\\[([0-9]{1,3})\\]\\s*\\=\\s*\"(.*?)\"\\s*>";
 const char RegexParser::CARR_CHR_EQUAL[] = "<n>";
-
+const char RegexParser::TAB_CHR_EQUAL[] = "<t>";
 
 // Parsing the file text (false - OK, true - ERROR)
 bool RegexParser::ParseFile(char *fileText, std::map<int, TextBlock*> &textParts)
@@ -123,7 +123,10 @@ bool RegexParser::ParseText(const char *part, char **mainText, char **headerText
 	std::string replaceStr = std::regex_replace(textStr, regexTemplate, "");
 	// Replace the carriage strings with the '\n' characters
 	regexTemplate = CARR_CHR_EQUAL;
-	textStr = std::regex_replace(replaceStr, regexTemplate, "\n");
+	replaceStr = std::regex_replace(replaceStr, regexTemplate, "\n");
+	// Replace the tab lines with the space characters
+	regexTemplate = TAB_CHR_EQUAL;
+	textStr = std::regex_replace(replaceStr, regexTemplate, "    ");
 	
 	// Find the main text
 	regexTemplate = MAIN_TEXT_REGEX;
