@@ -4,7 +4,7 @@
 
 // Defining static variables of the Terminal class
 char Terminal::inputBuffer[INPUT_BUFFER_LEN] = "";
-
+// Terminal windows
 TERM_WINDOW *Terminal::headWindow = nullptr;
 MAIN_TEXT_WINDOW *Terminal::mainTextWindow = nullptr;
 TERM_WINDOW *Terminal::inputWindow = nullptr;
@@ -69,6 +69,9 @@ bool Terminal::FinalTerminal()
 	}
 	if(inputWindow != nullptr){
 		delete inputWindow;
+	}
+	if(helpWindow != nullptr){
+		delete helpWindow;
 	}
 	
 	// End of the terminal
