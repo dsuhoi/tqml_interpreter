@@ -9,10 +9,10 @@
 // TQML interpreter functions
 
 // Initialize the interpreter components
-int Initialize(char *_filePath, std::map<int, TextBlock*> &textParts, std::string &mainPath);
+int initialize(char *_filePath, std::map<int, TextBlock*> &textParts, std::string &mainPath);
 // Main loop of the interpreter
-int Process(std::map<int, TextBlock*> &textParts, const std::string &mainPath);
+int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath);
 // End of the program
-void EndProgram(std::map<int, TextBlock*> &textParts);
+void endProgram(std::map<int, TextBlock*> &textParts);
 
 #endif
