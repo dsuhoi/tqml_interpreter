@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -std=c++17 -O2 -Wall -c 
 OFLAGS = -Wall -o
 LIBS = -lncurses -lstdc++fs
-#LIB_PACK = ar rc
+LIB_PACK = ar rc
 OBJ = main.o interpreter.o text_data.o regex_parser.o terminal.o term_windows.o files.o
 
 .PHONY: tqml clean help lib
@@ -42,3 +42,6 @@ files.o: filesystem/files.cpp filesystem/files.h
 
 clean:
 	rm -rf tqml *.o
+
+lib: $(OBJ)
+	 $(LIB_PACK) libTQML.a $(OBJ)

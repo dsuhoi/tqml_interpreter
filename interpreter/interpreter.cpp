@@ -39,7 +39,7 @@ int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
     while(1) {
         // Pointers to text blocks and their text links
         TextBlock *currentTextBlock = textParts[currentPart];
-        
+        // Print the windows
         Terminal::printWindow(HEAD, currentTextBlock->getHeaderText());
         Terminal::printWindow(EXTRA, currentTextBlock->getExtraText());
         Terminal::printWindow(MAIN_TEXT, currentTextBlock->getMainText());
@@ -53,9 +53,8 @@ int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
                 return 0;
             answer = Terminal::getAnswer();
             
-            if((currentTextLink = currentTextBlock->getLink(answer)) == nullptr) {
+            if((currentTextLink = currentTextBlock->getLink(answer)) == nullptr)
                 Terminal::printSystemWindow((char*)"Invalid input!!!");
-            }
         } while(currentTextLink == nullptr);
         
         // Save the link
