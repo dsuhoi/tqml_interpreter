@@ -35,7 +35,6 @@ int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
     int currentPart = 0;
     // Print the help information
     Terminal::printHelpWindow();
-    
     // Main loop
     while(1) {
         // Pointers to text blocks and their text links
@@ -45,7 +44,7 @@ int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
         Terminal::printWindow(EXTRA, currentTextBlock->getExtraText());
         Terminal::printWindow(MAIN_TEXT, currentTextBlock->getMainText());
         Terminal::printSystemWindow();
-        
+
         TextLink *currentTextLink = nullptr;
         char *answer = nullptr;
         // Input loop
@@ -53,7 +52,12 @@ int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
             if(Terminal::inputLoop())
                 return 0;
             answer = Terminal::getAnswer();
-        } while((currentTextLink = currentTextBlock->getLink(answer)) == nullptr);
+            
+            if((currentTextLink = currentTextBlock->getLink(answer)) == nullptr) {
+                Terminal::printSystemWindow((char*)"Invalid input!!!");
+            }
+        } while(currentTextLink == nullptr);
+        
         // Save the link
         currentPart = currentTextLink->getLinkNum();
         
@@ -70,7 +74,6 @@ int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
             // Delete the buffer for a file text
             delete [] readText;
         }
-        
     }
     
     return 0;

@@ -116,7 +116,7 @@
 </text>
 
 
-<text[1]>
+<text[2]>
 
 	<header>ARPANET</header>
 	<info></info>
