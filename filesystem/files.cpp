@@ -34,5 +34,4 @@ void Filesystem::getDir(char *filePath, std::string &str)
 {
     fs::path pathToFile = fs::canonical(filePath);
     str = pathToFile.parent_path().native() + '/';
-    return;
 }
