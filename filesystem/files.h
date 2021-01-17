@@ -10,12 +10,12 @@ namespace fs = std::experimental::filesystem;
 
 class Filesystem {
 private:
-    Filesystem(){}
+	Filesystem(){}
 public:
-    // Read the text file (false - OK, true - ERROR)
-    static bool readFile(char *pathName, char **readText);
-    // Get the absolute path
-    static void getDir(char *filePath, std::string &str);
+	// Read the text file (false - OK, true - ERROR)
+	static bool readFile(char *pathName, char **readText);
+	// Get the absolute path
+	static void getDir(char *filePath, std::string &str);
 };
 
 #endif
