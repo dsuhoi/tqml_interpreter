@@ -6,19 +6,19 @@
 
 // background and cursor colors
 enum BACKGROUND_COLORS {
-	WHITE = 1,
-	GREEN,
-	YELLOW,
-	BLUE,
-	CYAN
+    WHITE = 1,
+    GREEN,
+    YELLOW,
+    BLUE,
+    CYAN
 };
 
 // Names of the main windows
 enum DISPLAY_WINDOWS {
-	HEAD = 0,
-	MAIN_TEXT,
-	INPUT,
-	EXTRA
+    HEAD = 0,
+    MAIN_TEXT,
+    INPUT,
+    EXTRA
 //  SYSTEM
 };
 
@@ -48,49 +48,49 @@ const int MIN_SCREEN_HEIGHT = 1;
 // Class of terminal I/O function
 class Terminal {
 private:
-	// Array of input characters
-	static char inputBuffer[INPUT_BUFFER_LEN];
-	
-	// Window for displaying the title text
-	static TERM_WINDOW *headWindow;
-	// Window for displaying the text of the story
-	static MAIN_TEXT_WINDOW *mainTextWindow;
-	// Window for displaying the input user data
-	static TERM_WINDOW *inputWindow;
-	// Window for displaying the user extra information
-	static TERM_WINDOW *extraWindow;
-	// Window for displaying the system information
-	static TERM_WINDOW *systemWindow;
-	// Window for displaying the help information
-	static TERM_WINDOW *helpWindow;
-	
-	// Private constructor
-	Terminal(){}
-	// Analog refresh() function for the windows
-	static void updateWindow(DISPLAY_WINDOWS windowName);
-	// Initialization of the color scheme
-	static void initAllColors();
-	// Clear a text in the window (false - OK, true - ERROR)
-	static bool clearWindow(DISPLAY_WINDOWS windowName);
-	// Scanning input text from the input window
-	static void scanInputWindow();
+    // Array of input characters
+    static char inputBuffer[INPUT_BUFFER_LEN];
+    
+    // Window for displaying the title text
+    static TERM_WINDOW *headWindow;
+    // Window for displaying the text of the story
+    static MAIN_TEXT_WINDOW *mainTextWindow;
+    // Window for displaying the input user data
+    static TERM_WINDOW *inputWindow;
+    // Window for displaying the user extra information
+    static TERM_WINDOW *extraWindow;
+    // Window for displaying the system information
+    static TERM_WINDOW *systemWindow;
+    // Window for displaying the help information
+    static TERM_WINDOW *helpWindow;
+    
+    // Private constructor
+    Terminal(){}
+    // Analog refresh() function for the windows
+    static void updateWindow(DISPLAY_WINDOWS windowName);
+    // Initialization of the color scheme
+    static void initAllColors();
+    // Clear a text in the window (false - OK, true - ERROR)
+    static bool clearWindow(DISPLAY_WINDOWS windowName);
+    // Scanning input text from the input window
+    static void scanInputWindow();
 public:
-	// Initialization of terminal functions (false - OK, true - ERROR)
-	static bool initTerminal();
-	// Initialization of all windows (false - OK, true - ERROR)
-	static bool initAllWindows();
-	// End of terminal functions (false - OK, true - ERROR)
-	static bool finalTerminal();
-	// Print a text to the window (false - OK, true - ERROR)
-	static bool printWindow(DISPLAY_WINDOWS windowName, char *text);
-	// Print the system information to the window (false - OK, true - ERROR)
-	static void printSystemWindow(char *exceptionText = nullptr);
-	// Printing help window
-	static void printHelpWindow();
-	// The main loop to enter keys on the keyboard (false - OK, true - ERROR)
-	static bool inputLoop();
-	// Return a pointer to the inputBuffer Array
-	static char *getAnswer();
+    // Initialization of terminal functions (false - OK, true - ERROR)
+    static bool initTerminal();
+    // Initialization of all windows (false - OK, true - ERROR)
+    static bool initAllWindows();
+    // End of terminal functions (false - OK, true - ERROR)
+    static bool finalTerminal();
+    // Print a text to the window (false - OK, true - ERROR)
+    static bool printWindow(DISPLAY_WINDOWS windowName, char *text);
+    // Print the system information to the window (false - OK, true - ERROR)
+    static void printSystemWindow(char *exceptionText = nullptr);
+    // Printing help window
+    static void printHelpWindow();
+    // The main loop to enter keys on the keyboard (false - OK, true - ERROR)
+    static bool inputLoop();
+    // Return a pointer to the inputBuffer Array
+    static char *getAnswer();
 };
 
 
