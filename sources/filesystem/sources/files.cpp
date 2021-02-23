@@ -1,4 +1,4 @@
-#include "files.h"
+#include "../files.h"
 
 // Read the text file (false - OK, true - ERROR)
 bool Filesystem::readFile(char *pathName, char **readText)

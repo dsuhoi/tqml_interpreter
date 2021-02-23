@@ -1,7 +1,7 @@
 #include <cstring>
 #include <string>
-#include "text_data.h"
-#include "regex_parser.h"
+#include "../text_data.h"
+#include "../regex_parser.h"
 
 // Empty constructor
 TextLink::TextLink()
