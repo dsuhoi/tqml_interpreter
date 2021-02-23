@@ -33,7 +33,7 @@ public:
 
 
 // Class of main text window
-class MAIN_TEXT_WINDOW : TERM_WINDOW {
+class MAIN_TEXT_WINDOW : public TERM_WINDOW {
 private:
     char **textBuffer;   // Pointer to the main text buffer
     int numPages;       // Number of pages in the text
