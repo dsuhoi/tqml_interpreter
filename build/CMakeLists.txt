@@ -16,7 +16,7 @@ find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
 foreach (LIBRARY ${LIBRARIES})
-    add_subdirectory(../src/${LIBRARY}/bin bin/${LIBRARY})
+    add_subdirectory(../src/${LIBRARY}/build bin/${LIBRARY})
 endforeach ()
 
 add_executable(${PROJECT} ${SOURCES})

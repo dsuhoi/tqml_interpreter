@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 set(PROJECT interpreter)
-set(HEADERS ../includes/interpreter.h)
+set(HEADERS ../include/interpreter.h)
 set(SOURCES ../src/interpreter.cpp)
 
 project(${PROJECT})

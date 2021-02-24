@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(PROJECT termlib)
-set(HEADERS ../includes/terminal.h ../includes/term_windows.h)
-set(SOURCES ../src/terminal.cpp ../src/term_windows.cpp)
+set(PROJECT filesystem)
+set(HEADERS ../include/files.h)
+set(SOURCES ../src/files.cpp)
 
 project(${PROJECT})
 

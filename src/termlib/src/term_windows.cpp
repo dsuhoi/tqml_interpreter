@@ -1,6 +1,6 @@
 #include <cstring>
 #include <string>
-#include "../includes/term_windows.h"
+#include "../include/term_windows.h"
 
 
 // Basic constructor

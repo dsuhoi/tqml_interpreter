@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "interpreter/includes/interpreter.h"
+#include "interpreter/include/interpreter.h"
 
 
 // Main function

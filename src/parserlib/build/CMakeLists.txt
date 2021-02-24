@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 set(PROJECT parserlib)
-set(HEADERS ../includes/regex_parser.h ../includes/text_data.h)
+set(HEADERS ../include/regex_parser.h ../include/text_data.h)
 set(SOURCES ../src/regex_parser.cpp ../src/text_data.cpp)
 
 project(${PROJECT})
