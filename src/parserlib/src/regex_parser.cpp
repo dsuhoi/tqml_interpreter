@@ -1,6 +1,6 @@
 #include <string>
 #include <regex>
-#include "../regex_parser.h"
+#include "../includes/regex_parser.h"
 
 
 // Regular expression for parsing file text

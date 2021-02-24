@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(PROJECT interpreter)
-set(HEADERS ../interpreter.h)
-set(SOURCES ../sources/interpreter.cpp)
+set(PROJECT termlib)
+set(HEADERS ../includes/terminal.h ../includes/term_windows.h)
+set(SOURCES ../src/terminal.cpp ../src/term_windows.cpp)
 
 project(${PROJECT})
 
@@ -13,3 +13,5 @@ set_target_properties(${PROJECT} PROPERTIES
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
 )
+
+

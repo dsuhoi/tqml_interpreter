@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(PROJECT filesystem)
-set(HEADERS ../files.h)
-set(SOURCES ../sources/files.cpp)
+set(PROJECT interpreter)
+set(HEADERS ../includes/interpreter.h)
+set(SOURCES ../src/interpreter.cpp)
 
 project(${PROJECT})
 
@@ -13,5 +13,3 @@ set_target_properties(${PROJECT} PROPERTIES
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
 )
-
-

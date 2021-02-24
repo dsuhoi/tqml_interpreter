@@ -1,5 +1,5 @@
 #include <cstring>
-#include "../terminal.h"
+#include "../includes/terminal.h"
 
 
 // Defining static variables of the Terminal class

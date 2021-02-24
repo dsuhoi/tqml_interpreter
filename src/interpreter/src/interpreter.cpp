@@ -1,7 +1,7 @@
-#include "../../termlib/terminal.h"
-#include "../../filesystem/files.h"
-#include "../../parserlib/regex_parser.h"
-#include "../interpreter.h"
+#include "../../termlib/includes/terminal.h"
+#include "../../filesystem/includes/files.h"
+#include "../../parserlib/includes/regex_parser.h"
+#include "../includes/interpreter.h"
 
 
 // Initialize the interpreter components

@@ -6,17 +6,17 @@ set(LIBRARIES
     filesystem
     parserlib
     termlib)
-set(SOURCES ../sources/main.cpp)
+set(SOURCES ../src/main.cpp)
 
 project(${PROJECT})
 
-include_directories(../sources)
+include_directories(../src)
 
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
 foreach (LIBRARY ${LIBRARIES})
-    add_subdirectory(../sources/${LIBRARY}/bin bin/${LIBRARY})
+    add_subdirectory(../src/${LIBRARY}/bin bin/${LIBRARY})
 endforeach ()
 
 add_executable(${PROJECT} ${SOURCES})
