@@ -6,7 +6,6 @@
 #include <string>
 #include <filesystem>
 
-namespace fs = std::filesystem;
 
 class Filesystem {
 private:

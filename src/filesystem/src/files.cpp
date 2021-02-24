@@ -3,6 +3,7 @@
 // Read the text file (false - OK, true - ERROR)
 bool Filesystem::readFile(char *pathName, char **readText)
 {
+    namespace fs = std::filesystem;
     // File path
     fs::path pathToFile = pathName;
     // Open this file
@@ -32,6 +33,7 @@ bool Filesystem::readFile(char *pathName, char **readText)
 // Get the absolute path
 void Filesystem::getDir(char *filePath, std::string &str)
 {
+    namespace fs = std::filesystem;
     fs::path pathToFile = fs::canonical(filePath);
     str = pathToFile.parent_path().native() + '/';
 }
