@@ -10,7 +10,8 @@ set(SOURCES ../src/main.cpp)
 
 project(${PROJECT})
 
-include_directories(../src)
+include_directories(../src/interpreter/include)
+include_directories(../src/parserlib/include)
 
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
