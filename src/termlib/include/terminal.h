@@ -46,51 +46,52 @@ const int MIN_SCREEN_HEIGHT = 1;
 
 
 // Class of terminal I/O function
-class Terminal {
+class Terminal
+{
 private:
     // Array of input characters
-    static char inputBuffer[INPUT_BUFFER_LEN];
+    static char input_buffer[INPUT_BUFFER_LEN];
     
     // Window for displaying the title text
-    static TERM_WINDOW *headWindow;
+    static TERM_WINDOW *head_window;
     // Window for displaying the text of the story
-    static MAIN_TEXT_WINDOW *mainTextWindow;
+    static MAIN_TEXT_WINDOW *main_text_window;
     // Window for displaying the input user data
-    static TERM_WINDOW *inputWindow;
+    static TERM_WINDOW *input_window;
     // Window for displaying the user extra information
-    static TERM_WINDOW *extraWindow;
+    static TERM_WINDOW *extra_window;
     // Window for displaying the system information
-    static TERM_WINDOW *systemWindow;
+    static TERM_WINDOW *system_window;
     // Window for displaying the help information
-    static TERM_WINDOW *helpWindow;
+    static TERM_WINDOW *help_window;
     
     // Private constructor
-    Terminal(){}
+    Terminal() = delete;
     // Analog refresh() function for the windows
-    static void updateWindow(DISPLAY_WINDOWS windowName);
+    static void update_window(DISPLAY_WINDOWS window_name);
     // Initialization of the color scheme
-    static void initAllColors();
+    static void init_all_colors();
     // Clear a text in the window (false - OK, true - ERROR)
-    static bool clearWindow(DISPLAY_WINDOWS windowName);
+    static bool clear_window(DISPLAY_WINDOWS window_name);
     // Scanning input text from the input window
-    static void scanInputWindow();
+    static void scan_input_window();
 public:
     // Initialization of terminal functions (false - OK, true - ERROR)
-    static bool initTerminal();
+    static bool init_terminal();
     // Initialization of all windows (false - OK, true - ERROR)
-    static bool initAllWindows();
+    static bool init_all_windows();
     // End of terminal functions (false - OK, true - ERROR)
-    static bool finalTerminal();
+    static bool final_terminal();
     // Print a text to the window (false - OK, true - ERROR)
-    static bool printWindow(DISPLAY_WINDOWS windowName, char *text);
+    static bool print_window(DISPLAY_WINDOWS window_name, char *text);
     // Print the system information to the window (false - OK, true - ERROR)
-    static void printSystemWindow(char *exceptionText = nullptr);
+    static void print_system_window(char *exception_text = nullptr);
     // Printing help window
-    static void printHelpWindow();
+    static void print_help_window();
     // The main loop to enter keys on the keyboard (false - OK, true - ERROR)
-    static bool inputLoop();
+    static bool input_loop();
     // Return a pointer to the inputBuffer Array
-    static char *getAnswer();
+    static char *get_answer();
 };
 
 

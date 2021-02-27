@@ -4,53 +4,55 @@
 #include <vector>
 
 // Text link to the next text part
-class TextLink {
+class Text_link
+{
 private:
     // Pointer to the file name string
-    char *fileName;
+    char *file_name;
     // Pointer to the answer string
-    char *textAnswer;
+    char *text_answer;
     // Link to the next text part
-    int linkNumber;
+    int link_number;
 public:
     // Empty constructor
-    TextLink();
+    Text_link();
     // Main constructor
-    TextLink(int _link, const char *_answer, const char *_file);
+    Text_link(int _link, const char *_answer, const char *_file);
     // Destructor
-    ~TextLink();
+    ~Text_link();
     // Return the pointer to the file name (char array)
-    char *getFileName();
+    char *get_file_name();
     // Return the pointer to the answer (char array)
-    char *getAnswer();
+    char *get_answer();
     // Return the link to the next text part
-    int getLinkNum();
+    int get_link_num();
 };
 
 // Text block class
-class TextBlock {
+class Text_block
+{
 private:
     // Vector with text links
-    std::vector<TextLink*> vectLinks;
+    std::vector<Text_link*> vect_links;
     // Extra text in the text block
-    char *extraText;
+    char *extra_text;
     // Header text in the text block
-    char *headerText;
+    char *header_text;
     // Main text in the text block
-    char *mainText;
+    char *main_text;
 public:
     // Constructor
-    TextBlock(const char *fullText);
+    Text_block(const char *full_text);
     // Destructor
-    ~TextBlock();
+    ~Text_block();
     // Return a pointer to the main text from the block
-    char *getMainText();
+    char *get_main_text();
     // Return a pointer to the header text from the block
-    char *getHeaderText();
+    char *get_header_text();
     // Return a pointer to the extra text from the block
-    char *getExtraText();
+    char *get_extra_text();
     // Return a pointer to the text link object
-    TextLink *getLink(char *Answer);
+    Text_link *get_link(char *answer);
 };
 
 #endif

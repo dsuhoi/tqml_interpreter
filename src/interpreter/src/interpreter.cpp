@@ -5,73 +5,73 @@
 
 
 // Initialize the interpreter components
-int initialize(char *_filePath, std::map<int, TextBlock*> &textParts, std::string &mainPath)
+int initialize(char *_file_path, std::map<int, Text_block*> &text_parts, std::string &main_path)
 {
     // Get the path to the folder with the question
-    Filesystem::getDir(_filePath, mainPath);
+    Filesystem::get_dir(_file_path, main_path);
     // Initialization of terminal functions
-    if (Terminal::initTerminal())
+    if (Terminal::init_terminal())
         return 2;
     // Initialization of all windows
-    if (Terminal::initAllWindows())
+    if (Terminal::init_all_windows())
         return 3;
     // Buffer for a file text
-    char *readText = nullptr;
+    char *read_text = nullptr;
     // Read the text file
-    if (Filesystem::readFile(_filePath, &readText))
+    if (Filesystem::read_file(_file_path, &read_text))
         return 4;
     // Parsing the file text
-    if (RegexParser::parseFile(readText, textParts))
+    if (Regex_parser::parse_file(read_text, text_parts))
         return 5;
     // Delete the buffer for a file text
-    delete [] readText;
+    delete [] read_text;
     
     return 0;
 }
 
 // Main loop of the interpreter
-int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
+int process(std::map<int, Text_block*> &text_parts, const std::string &main_path)
 {
-    int currentPart = 0;
+    int current_part = 0;
     // Print the help information
-    Terminal::printHelpWindow();
+    Terminal::print_help_window();
     // Main loop
     while (1) {
         // Pointers to text blocks and their text links
-        TextBlock *currentTextBlock = textParts[currentPart];
+        Text_block *current_text_block = text_parts[current_part];
         // Print the windows
-        Terminal::printWindow(HEAD, currentTextBlock->getHeaderText());
-        Terminal::printWindow(EXTRA, currentTextBlock->getExtraText());
-        Terminal::printWindow(MAIN_TEXT, currentTextBlock->getMainText());
-        Terminal::printSystemWindow();
+        Terminal::print_window(HEAD, current_text_block->get_header_text());
+        Terminal::print_window(EXTRA, current_text_block->get_extra_text());
+        Terminal::print_window(MAIN_TEXT, current_text_block->get_main_text());
+        Terminal::print_system_window();
 
-        TextLink *currentTextLink = nullptr;
+        Text_link *current_text_link = nullptr;
         char *answer = nullptr;
         // Input loop
         do {
-            if (Terminal::inputLoop())
+            if (Terminal::input_loop())
                 return 0;
-            answer = Terminal::getAnswer();
+            answer = Terminal::get_answer();
             
-            if ((currentTextLink = currentTextBlock->getLink(answer)) == nullptr)
-                Terminal::printSystemWindow((char*)"Invalid input!!!");
-        } while (currentTextLink == nullptr);
+            if ((current_text_link = current_text_block->get_link(answer)) == nullptr)
+                Terminal::print_system_window((char*)"Invalid input!!!");
+        } while (current_text_link == nullptr);
         
         // Save the link
-        currentPart = currentTextLink->getLinkNum();
+        current_part = current_text_link->get_link_num();
         
-        if (currentTextLink->getFileName() != nullptr) {
+        if (current_text_link->get_file_name() != nullptr) {
             // Main path string
-            std::string newPathStr = mainPath + currentTextLink->getFileName();
+            std::string new_path_str = main_path + current_text_link->get_file_name();
             // Buffer for a file text
-            char *readText = nullptr;
+            char *read_text = nullptr;
             // Read the file and parsing the its text
-            if (Filesystem::readFile(const_cast<char*>(newPathStr.c_str()), &readText))
+            if (Filesystem::read_file(const_cast<char*>(new_path_str.c_str()), &read_text))
                 return 4;
-            if (RegexParser::parseFile(readText, textParts))
+            if (Regex_parser::parse_file(read_text, text_parts))
                 return 5;
             // Delete the buffer for a file text
-            delete [] readText;
+            delete [] read_text;
         }
     }
     
@@ -79,16 +79,16 @@ int process(std::map<int, TextBlock*> &textParts, const std::string &mainPath)
 }
 
 // End of the program
-void endProgram(std::map<int, TextBlock*> &textParts)
+void end_program(std::map<int, Text_block*> &text_parts)
 {
     // Check the map for elements
-    if (!textParts.empty()) {
-        for (auto iter = textParts.begin(); iter != textParts.end(); iter++)
+    if (!text_parts.empty()) {
+        for (auto iter = text_parts.begin(); iter != text_parts.end(); ++iter)
             // Delete text parts
             delete iter->second;
         // Erase all elements
-        textParts.clear();
+        text_parts.clear();
     }
     
-    Terminal::finalTerminal();
+    Terminal::final_terminal();
 }

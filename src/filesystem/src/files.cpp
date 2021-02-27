@@ -1,39 +1,39 @@
 #include "files.h"
 
 // Read the text file (false - OK, true - ERROR)
-bool Filesystem::readFile(char *pathName, char **readText)
+bool Filesystem::read_file(char *path_name, char **read_text)
 {
     namespace fs = std::filesystem;
     // File path
-    fs::path pathToFile = pathName;
+    fs::path path_to_file = path_name;
     // Open this file
-    std::ifstream readFile (pathToFile.native());
-    if (!readFile)
+    std::ifstream read_file (path_to_file.native());
+    if (!read_file)
         return true;    
     // Check the pointer to the read text and delete it
-    if ((*readText) != nullptr) {
-        delete [] (*readText);
-        (*readText) = nullptr;
+    if ((*read_text) != nullptr) {
+        delete [] (*read_text);
+        (*read_text) = nullptr;
     }
     
     // ONLY FOR UNIX !!!
     // Get the file size
-    size_t fileSize = readFile.seekg(0, std::ios::end).tellg();
-    readFile.seekg(0);
+    size_t file_size = read_file.seekg(0, std::ios::end).tellg();
+    read_file.seekg(0);
     // Create the read text buffer
-    (*readText) = new char [fileSize + 1];
+    (*read_text) = new char [file_size + 1];
     // Read the text file
-    readFile.read((*readText), fileSize);
-    (*readText)[fileSize] = 0;
-    readFile.close();
+    read_file.read((*read_text), file_size);
+    (*read_text)[file_size] = 0;
+    read_file.close();
     // If everything is OK, return the false value
     return false;
 }
 
 // Get the absolute path
-void Filesystem::getDir(char *filePath, std::string &str)
+void Filesystem::get_dir(char *file_path, std::string &str)
 {
     namespace fs = std::filesystem;
-    fs::path pathToFile = fs::canonical(filePath);
-    str = pathToFile.parent_path().native() + '/';
+    fs::path path_to_file = fs::canonical(file_path);
+    str = path_to_file.parent_path().native() + '/';
 }

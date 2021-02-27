@@ -4,7 +4,8 @@
 #include <ncurses.h>
 
 // Class the main windows
-class TERM_WINDOW {
+class TERM_WINDOW
+{
 private:
     WINDOW *main;       // This is the main subwindow
     WINDOW *background; // and its background window
@@ -16,7 +17,7 @@ public:
     // Virtual destructor
     virtual ~TERM_WINDOW();
     // Function for adding a color scheme
-    void setColors(chtype colors);
+    void set_colors(chtype colors);
     // This function is an analog refresh() for two windows (main and background)
     virtual void update();
     // Clear the text in the main subwindow (wclear)
@@ -26,19 +27,20 @@ public:
     // Print the text in the main subwindow (mvwprintw)
     void print(int x, int y, char *text);
     // Get the main subwindow width and height
-    void getWidthAndHeight(int &width, int &height);
+    void get_width_and_height(int &width, int &height);
     // Return a pointer to the main subwindow
-    WINDOW *getMain();
+    WINDOW *get_main();
 };
 
 
 // Class of main text window
-class MAIN_TEXT_WINDOW : public TERM_WINDOW {
+class MAIN_TEXT_WINDOW : public TERM_WINDOW
+{
 private:
-    char **textBuffer;   // Pointer to the main text buffer
-    int numPages;       // Number of pages in the text
-    int currentPage;    // Current page number
-    int numChr;         // Number of characters in the text
+    char **text_buffer;   // Pointer to the main text buffer
+    int num_pages;       // Number of pages in the text
+    int current_page;    // Current page number
+    int num_chr;         // Number of characters in the text
 public:
     // Constructors
     MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x);
@@ -49,17 +51,17 @@ public:
     // This function is an analog refresh() for two windows (main and background)
     void update() override;
     // Update the main text page
-    void updatePage();
+    void update_page();
     // Erase all main text variables
     void clear() override;
     // Print the text in the main text window
     void print(char *text) override;
     // Set/Get current page
-    int &setCurrentPage();
+    int &set_current_page();
     // Return the number of pages
-    int getNumPages();
+    int get_num_pages();
     // Return the number of characters
-    int getNumChr();
+    int get_num_chr();
 };
 
 
