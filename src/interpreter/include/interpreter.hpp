@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include "text_data.h"
+#include "text_data.hpp"
 
 
 // TQML interpreter functions

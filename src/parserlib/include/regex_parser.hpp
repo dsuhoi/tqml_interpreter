@@ -2,7 +2,7 @@
 #define __REGEX_PARSER_H__
 
 #include <map>
-#include "text_data.h"
+#include "text_data.hpp"
 
 // Class for parsing text data
 class Regex_parser

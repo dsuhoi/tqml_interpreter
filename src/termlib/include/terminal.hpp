@@ -2,7 +2,7 @@
 #define __TERMINAL_H__
 
 #include <ncurses.h>
-#include "term_windows.h"
+#include "term_windows.hpp"
 
 // background and cursor colors
 enum BACKGROUND_COLORS {

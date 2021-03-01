@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "interpreter.h"
+#include "interpreter.hpp"
 
 
 // Main function
