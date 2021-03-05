@@ -36,7 +36,8 @@ int process(std::map<int, Text_block*> &text_parts, const std::string &main_path
     // Print the help information
     Terminal::print_help_window();
     // Main loop
-    while (1) {
+    while (1)
+	{
         // Pointers to text blocks and their text links
         Text_block *current_text_block = text_parts[current_part];
         // Print the windows
@@ -48,7 +49,8 @@ int process(std::map<int, Text_block*> &text_parts, const std::string &main_path
         Text_link *current_text_link = nullptr;
         char *answer = nullptr;
         // Input loop
-        do {
+        do
+        {
             if (Terminal::input_loop())
                 return 0;
             answer = Terminal::get_answer();
@@ -60,7 +62,8 @@ int process(std::map<int, Text_block*> &text_parts, const std::string &main_path
         // Save the link
         current_part = current_text_link->get_link_num();
         
-        if (current_text_link->get_file_name() != nullptr) {
+        if (current_text_link->get_file_name() != nullptr)
+	    {
             // Main path string
             std::string new_path_str = main_path + current_text_link->get_file_name();
             // Buffer for a file text
@@ -82,7 +85,8 @@ int process(std::map<int, Text_block*> &text_parts, const std::string &main_path
 void end_program(std::map<int, Text_block*> &text_parts)
 {
     // Check the map for elements
-    if (!text_parts.empty()) {
+    if (!text_parts.empty())
+	{
         for (auto iter = text_parts.begin(); iter != text_parts.end(); ++iter)
             // Delete text parts
             delete iter->second;

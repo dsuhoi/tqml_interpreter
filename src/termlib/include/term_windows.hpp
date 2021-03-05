@@ -6,9 +6,6 @@
 // Class the main windows
 class TERM_WINDOW
 {
-private:
-    WINDOW *main;       // This is the main subwindow
-    WINDOW *background; // and its background window
 public:
     // Basic constructor
     TERM_WINDOW(int height, int width, int pos_y, int pos_x);
@@ -30,17 +27,15 @@ public:
     void get_width_and_height(int &width, int &height);
     // Return a pointer to the main subwindow
     WINDOW *get_main();
+private:
+    WINDOW *main;       // This is the main subwindow
+    WINDOW *background; // and its background window
 };
 
 
 // Class of main text window
 class MAIN_TEXT_WINDOW : public TERM_WINDOW
 {
-private:
-    char **text_buffer;   // Pointer to the main text buffer
-    int num_pages;       // Number of pages in the text
-    int current_page;    // Current page number
-    int num_chr;         // Number of characters in the text
 public:
     // Constructors
     MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x);
@@ -62,6 +57,11 @@ public:
     int get_num_pages();
     // Return the number of characters
     int get_num_chr();
+private:
+    char **text_buffer;   // Pointer to the main text buffer
+    int num_pages;        // Number of pages in the text
+    int current_page;     // Current page number
+    int num_chr;          // Number of characters in the text
 };
 
 

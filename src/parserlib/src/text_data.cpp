@@ -19,10 +19,13 @@ Text_link::Text_link(int _link, const char *_answer, const char *_file)
     text_answer = new char [strlen(_answer) + 1];
     strcpy(text_answer, _answer);
     
-    if (_file[0] != 0) {
+    if (_file[0] != 0)
+	{
         file_name = new char [strlen(_file) + 1];
         strcpy(file_name, _file);
-    } else {
+    }
+    else
+    {
         // If the string is empty, set the nullptr
         file_name = nullptr;
     }
@@ -74,7 +77,8 @@ Text_block::Text_block(const char *full_text)
 Text_block::~Text_block()
 {
     // Check the vector for elements
-    if (!vect_links.empty()){
+    if (!vect_links.empty())
+    {
         // Delete the text links
         for (auto it = vect_links.begin(); it != vect_links.end(); ++it)
             delete *it;

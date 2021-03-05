@@ -11,7 +11,8 @@ bool Filesystem::read_file(char *path_name, char **read_text)
     if (!read_file)
         return true;    
     // Check the pointer to the read text and delete it
-    if ((*read_text) != nullptr) {
+    if ((*read_text) != nullptr)
+	{
         delete [] (*read_text);
         (*read_text) = nullptr;
     }

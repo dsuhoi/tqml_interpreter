@@ -17,7 +17,8 @@ const char Regex_parser::TAB_CHR_EQUAL[] = "<t>";
 bool Regex_parser::parse_file(char *file_text, std::map<int, Text_block*> &text_parts)
 {
     // Check the map for elements
-    if (!text_parts.empty()) {
+    if (!text_parts.empty())
+	{
         // Delete text parts
         for (auto iter = text_parts.begin(); iter != text_parts.end(); ++iter)
             delete iter->second;
@@ -33,7 +34,8 @@ bool Regex_parser::parse_file(char *file_text, std::map<int, Text_block*> &text_
     // Link to the text part
     int link = -1;
     // Parsing...
-    while (std::regex_search(file_textStr.c_str(), result_str, regex_template)) {
+    while (std::regex_search(file_textStr.c_str(), result_str, regex_template))
+	{
         link = atoi(result_str.str(1).c_str());
         // Create memory for the text part
         text_parts[link] = new Text_block(result_str.str(2).c_str());
@@ -51,7 +53,8 @@ bool Regex_parser::parse_file(char *file_text, std::map<int, Text_block*> &text_
 bool Regex_parser::parse_links(const char *part, std::vector<Text_link*> &vect_links)
 {
     // Check the vector for elements
-    if (!vect_links.empty()) {
+    if (!vect_links.empty())
+	{
         // Delete the text links
         for (auto it = vect_links.begin(); it != vect_links.end(); ++it)
             delete *it;
@@ -73,7 +76,8 @@ bool Regex_parser::parse_links(const char *part, std::vector<Text_link*> &vect_l
     int link = -1;
     regex_template = LINK_REGEX;
     // Parsing...
-    while (std::regex_search(link_text_str.c_str(), result_str, regex_template)) {
+    while (std::regex_search(link_text_str.c_str(), result_str, regex_template))
+	{
         link = atoi(result_str.str(2).c_str());
         // Create a vector with text links
         Text_link *textLink = new Text_link(link, result_str.str(3).c_str(), result_str.str(1).c_str());
@@ -92,17 +96,20 @@ bool Regex_parser::parse_links(const char *part, std::vector<Text_link*> &vect_l
 bool Regex_parser::parse_text(const char *part, char **main_text, char **header_text, char **extra_text)
 {
     // Check the pointer to the main text
-    if ((*main_text) != nullptr) {
+    if ((*main_text) != nullptr)
+	{
         delete [] (*main_text);
         (*main_text) = nullptr;
     }
     // Check the pointer to the header text
-    if ((*header_text) != nullptr) {
+    if ((*header_text) != nullptr)
+	{
         delete [] (*header_text);
         (*header_text) = nullptr;
     }
     // Check the pointer to the extra text
-    if ((*extra_text) != nullptr) {
+    if ((*extra_text) != nullptr)
+	{
         delete [] (*extra_text);
         (*extra_text) = nullptr;
     }
@@ -124,19 +131,23 @@ bool Regex_parser::parse_text(const char *part, char **main_text, char **header_
     
     // Find the main text
     regex_template = MAIN_TEXT_REGEX;
-    if (std::regex_search(textStr.c_str(), result_str, regex_template)) {
+    if (std::regex_search(textStr.c_str(), result_str, regex_template))
+	{
         // Create the main text
         int strLen = result_str.str(1).length();
         (*main_text) = new char[strLen + 1];
         strcpy((*main_text), result_str.str(1).c_str());
-    } else {
+    }
+    else
+    {
         // If the text main is not founded, return the true value
         return true;
     }
     
     // Find the header text
     regex_template = HEADER_TEXT_REGEX;
-    if (std::regex_search(textStr.c_str(), result_str, regex_template)) {
+    if (std::regex_search(textStr.c_str(), result_str, regex_template))
+	{
         // Create the header text
         int strLen = result_str.str(1).length();
         (*header_text) = new char[strLen + 1];
@@ -145,7 +156,8 @@ bool Regex_parser::parse_text(const char *part, char **main_text, char **header_
     
     // Find the extra text
     regex_template = EXTRA_TEXT_REGEX;
-    if (std::regex_search(textStr.c_str(), result_str, regex_template)) {
+    if (std::regex_search(textStr.c_str(), result_str, regex_template))
+	{
         // Create the extra text
         int strLen = result_str.str(1).length();
         (*extra_text) = new char[strLen + 1];
