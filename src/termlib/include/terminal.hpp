@@ -48,6 +48,25 @@ const int MIN_SCREEN_HEIGHT = 1;
 // Class of terminal I/O function
 class Terminal
 {
+public:
+    // Private constructor
+    Terminal() = delete;
+    // Initialization of terminal functions (false - OK, true - ERROR)
+    static bool init_terminal();
+    // Initialization of all windows (false - OK, true - ERROR)
+    static bool init_all_windows();
+    // End of terminal functions (false - OK, true - ERROR)
+    static bool final_terminal();
+    // Print a text to the window (false - OK, true - ERROR)
+    static bool print_window(DISPLAY_WINDOWS window_name, char *text);
+    // Print the system information to the window (false - OK, true - ERROR)
+    static void print_system_window(char *exception_text = nullptr);
+    // Printing help window
+    static void print_help_window();
+    // The main loop to enter keys on the keyboard (false - OK, true - ERROR)
+    static bool input_loop();
+    // Return a pointer to the inputBuffer Array
+    static char *get_answer();
 private:
     // Array of input characters
     static char input_buffer[INPUT_BUFFER_LEN];
@@ -65,8 +84,7 @@ private:
     // Window for displaying the help information
     static TERM_WINDOW *help_window;
     
-    // Private constructor
-    Terminal() = delete;
+    
     // Analog refresh() function for the windows
     static void update_window(DISPLAY_WINDOWS window_name);
     // Initialization of the color scheme
@@ -75,23 +93,6 @@ private:
     static bool clear_window(DISPLAY_WINDOWS window_name);
     // Scanning input text from the input window
     static void scan_input_window();
-public:
-    // Initialization of terminal functions (false - OK, true - ERROR)
-    static bool init_terminal();
-    // Initialization of all windows (false - OK, true - ERROR)
-    static bool init_all_windows();
-    // End of terminal functions (false - OK, true - ERROR)
-    static bool final_terminal();
-    // Print a text to the window (false - OK, true - ERROR)
-    static bool print_window(DISPLAY_WINDOWS window_name, char *text);
-    // Print the system information to the window (false - OK, true - ERROR)
-    static void print_system_window(char *exception_text = nullptr);
-    // Printing help window
-    static void print_help_window();
-    // The main loop to enter keys on the keyboard (false - OK, true - ERROR)
-    static bool input_loop();
-    // Return a pointer to the inputBuffer Array
-    static char *get_answer();
 };
 
 

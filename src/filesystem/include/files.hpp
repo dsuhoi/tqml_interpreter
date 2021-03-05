@@ -9,9 +9,8 @@
 
 class Filesystem
 {
-private:
-    Filesystem() = delete;
 public:
+    Filesystem() = delete;
     // Read the text file (false - OK, true - ERROR)
     static bool read_file(char *path_name, char **read_text);
     // Get the absolute path

@@ -125,7 +125,8 @@ bool Terminal::init_all_windows()
 // Clear a text in the window (false - OK, true - ERROR)
 bool Terminal::clear_window(DISPLAY_WINDOWS window_name)
 {
-    switch (window_name) {
+    switch (window_name)
+	{
     case HEAD:
         head_window->clear();
         break;
@@ -157,7 +158,8 @@ bool Terminal::print_window(DISPLAY_WINDOWS window_name, char *text)
     clear_window(window_name);
     
     int head_width, head_height;
-    switch (window_name) {
+    switch (window_name)
+	{
     case HEAD:
         head_window->get_width_and_height(head_width, head_height);
         head_window->print((head_width - strlen(text))/2, head_height - 1, text);
@@ -254,10 +256,12 @@ bool Terminal::input_loop()
     int current_text_page = main_text_window->set_current_page();
     int num_text_pages = main_text_window->get_num_pages();
     // Infinite loop
-    while (1) {
+    while (1)
+	{
         // Catch a key from the keyboard
         int current_button = wgetch(input_window->get_main());
-        switch (current_button) {
+        switch (current_button)
+	    {
         /* // Backup keys
         case KEY_DOWN:
             break;

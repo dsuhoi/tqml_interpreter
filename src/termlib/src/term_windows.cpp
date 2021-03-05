@@ -158,7 +158,8 @@ void MAIN_TEXT_WINDOW::print(char *text)
     // Create the text buffer
     text_buffer = new char*[num_pages];
     text_buffer[0] = new char[(full_area + 1) * num_pages];
-    for (int i = 0; i < num_pages; ++i) {
+    for (int i = 0; i < num_pages; ++i)
+    {
         // Set the pointer to the text part
         text_buffer[i] = text_buffer[0] + (full_area + 1) * i;
         // Get the visual characters number
@@ -179,7 +180,8 @@ void MAIN_TEXT_WINDOW::print(char *text)
 void MAIN_TEXT_WINDOW::clear()
 {
     // Delete the text buffer
-    if (text_buffer != nullptr) {
+    if (text_buffer != nullptr)
+    {
         delete [] text_buffer[0];
         delete [] text_buffer;
         text_buffer = nullptr;
