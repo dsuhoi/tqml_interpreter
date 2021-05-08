@@ -8,7 +8,8 @@
 int main(int argc, char **argv)
 {
     // Check the string parametr
-    if (argc < 2) {
+    if (argc < 2)
+    {
         std::cout << "No text file specified.\n";
         return 1;
     }
@@ -24,7 +25,8 @@ int main(int argc, char **argv)
         return result;
         
     // Main loop of the interpreter
-    if ((result = process(text_parts, main_path)) != 0) {
+    if ((result = process(text_parts, main_path)) != 0)
+    {
         end_program(text_parts);
         return result;
     }

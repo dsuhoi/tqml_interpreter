@@ -49,7 +49,8 @@ int process(std::map<int, Text_block*> &text_parts, const std::string &main_path
         Text_link *current_text_link = nullptr;
         char *answer = nullptr;
         // Input loop
-        do {
+        do
+        {
             if (Terminal::input_loop())
                 return 0;
             answer = Terminal::get_answer();
