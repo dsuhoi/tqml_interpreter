@@ -7,14 +7,13 @@
 #include <filesystem>
 
 
-class Filesystem
+struct Filesystem
 {
-public:
     Filesystem() = delete;
     // Read the text file (false - OK, true - ERROR)
-    static bool read_file(char *path_name, char **read_text);
+    static bool read_file(std::string_view path_name, std::string& read_text);
     // Get the absolute path
-    static void get_dir(char *file_path, std::string &str);
+    static void get_dir(std::string_view file_path, std::string& str);
 };
 
 #endif

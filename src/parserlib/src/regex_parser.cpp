@@ -72,7 +72,6 @@ bool Regex_parser::parse_links(std::string part, std::vector<Text_link>& vect_li
 // Get the pointers to the main, header and extra text (false - OK, true - ERROR)
 bool Regex_parser::parse_text(std::string part, std::string& main_text, std::string& header_text, std::string& extra_text)
 {
-        
     // Parsing result
     std::cmatch result_str;
     // Regex template to search for

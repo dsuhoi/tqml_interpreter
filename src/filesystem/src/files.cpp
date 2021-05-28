@@ -1,7 +1,8 @@
 #include "files.hpp"
+#include <sstream>
 
 // Read the text file (false - OK, true - ERROR)
-bool Filesystem::read_file(char *path_name, char **read_text)
+bool Filesystem::read_file(std::string_view path_name, std::string& read_text)
 {
     namespace fs = std::filesystem;
     // File path
@@ -11,28 +12,19 @@ bool Filesystem::read_file(char *path_name, char **read_text)
     if (!read_file)
         return true;    
     // Check the pointer to the read text and delete it
-    if ((*read_text) != nullptr)
-	{
-        delete [] (*read_text);
-        (*read_text) = nullptr;
-    }
+    read_file.clear();
     
-    // ONLY FOR UNIX !!!
-    // Get the file size
-    size_t file_size = read_file.seekg(0, std::ios::end).tellg();
-    read_file.seekg(0);
     // Create the read text buffer
-    (*read_text) = new char [file_size + 1];
-    // Read the text file
-    read_file.read((*read_text), file_size);
-    (*read_text)[file_size] = 0;
+    std::stringstream ss;
+    ss << read_file.rdbuf();
     read_file.close();
+    read_text = ss.str();
     // If everything is OK, return the false value
     return false;
 }
 
 // Get the absolute path
-void Filesystem::get_dir(char *file_path, std::string &str)
+void Filesystem::get_dir(std::string_view file_path, std::string& str)
 {
     namespace fs = std::filesystem;
     fs::path path_to_file = fs::canonical(file_path);
