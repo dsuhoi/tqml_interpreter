@@ -2,16 +2,6 @@
 #include "terminal.hpp"
 
 
-// Defining static variables of the Terminal class
-char Terminal::input_buffer[INPUT_BUFFER_LEN] = "";
-// Terminal windows
-TERM_WINDOW *Terminal::head_window = nullptr;
-MAIN_TEXT_WINDOW *Terminal::main_text_window = nullptr;
-TERM_WINDOW *Terminal::input_window = nullptr;
-TERM_WINDOW *Terminal::extra_window = nullptr;
-TERM_WINDOW *Terminal::system_window = nullptr;
-TERM_WINDOW *Terminal::help_window = nullptr;
-
 // Initialization of terminal functions (false - OK, true - ERROR)
 bool Terminal::init_terminal()
 {
@@ -37,7 +27,6 @@ void Terminal::init_all_colors()
     init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK);
     init_pair(BLUE, COLOR_BLACK, COLOR_BLUE);
     init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
-    
 }
 
 // End of terminal functions (false - OK, true - ERROR)
@@ -53,21 +42,7 @@ bool Terminal::final_terminal()
     // Enable the display of cursor and characters
     curs_set(1);
     echo();
-    
-    // Delete all windows
-    if (head_window != nullptr)
-        delete head_window;
-    if (main_text_window != nullptr)
-        delete main_text_window;
-    if (extra_window != nullptr)
-        delete extra_window;
-    if (system_window != nullptr)
-        delete system_window;
-    if (input_window != nullptr)
-        delete input_window;
-    if (help_window != nullptr)
-        delete help_window;
-    
+
     // End of the terminal
     endwin();
     // If everything is OK, return the false value
@@ -89,14 +64,11 @@ bool Terminal::init_all_windows()
     
     // Initialize the title window
     int pos_center_width = (scr_width + INDENT_WIDTH)/4;
-    if (!(head_window = new TERM_WINDOW(HEAD_HEIGHT, win_width/2, 1, pos_center_width, COLOR_PAIR(YELLOW))))
-        return true;
+    head_window.reset(new TERM_WINDOW(HEAD_HEIGHT, win_width/2, 1, pos_center_width, COLOR_PAIR(YELLOW)));
     // Initialize the main text window
-    if (!(main_text_window = new MAIN_TEXT_WINDOW(win_height, win_width, HEAD_HEIGHT + 1, INDENT_WIDTH/2, COLOR_PAIR(WHITE))))
-        return true;
+    main_text_window.reset(new MAIN_TEXT_WINDOW(win_height, win_width, HEAD_HEIGHT + 1, INDENT_WIDTH/2, COLOR_PAIR(WHITE)));
     // Initialize the input window
-    if (!(input_window = new TERM_WINDOW(WINDOW_HEIGHT, win_width, win_height + HEAD_HEIGHT + 1, INDENT_WIDTH/2, COLOR_PAIR(GREEN))))
-        return true;
+    input_window.reset(new TERM_WINDOW(WINDOW_HEIGHT, win_width, win_height + HEAD_HEIGHT + 1, INDENT_WIDTH/2, COLOR_PAIR(GREEN)));
     
     // Enable the key handler in the input window
     keypad(input_window->get_main(), true);
@@ -105,18 +77,12 @@ bool Terminal::init_all_windows()
     
     // Initialize the user extra window
     int pos_down_height = WINDOW_HEIGHT + win_height + HEAD_HEIGHT + 1;
-    if (!(extra_window = new TERM_WINDOW(WINDOW_HEIGHT, win_width/2, pos_down_height, INDENT_WIDTH/2, COLOR_PAIR(BLUE))))
-        return true;
+    extra_window.reset(new TERM_WINDOW(WINDOW_HEIGHT, win_width/2, pos_down_height, INDENT_WIDTH/2, COLOR_PAIR(BLUE)));
     // Initialize the system window
     int posRightWidth = scr_width/2;
-    if (!(system_window = new TERM_WINDOW(WINDOW_HEIGHT, win_width/2, pos_down_height, posRightWidth, COLOR_PAIR(CYAN))))
-        return true;
+    system_window.reset(new TERM_WINDOW(WINDOW_HEIGHT, win_width/2, pos_down_height, posRightWidth, COLOR_PAIR(CYAN)));
     
-    if (!(help_window = new TERM_WINDOW(HELP_HEIGHT, HELP_WIDTH, (scr_height - HELP_HEIGHT)/2, (scr_width - HELP_WIDTH)/2, COLOR_PAIR(BLUE))))
-        return true;
-    
-    // Сlear the array of input characters
-    memset(input_buffer, 0, INPUT_BUFFER_LEN);
+    help_window.reset(new TERM_WINDOW(HELP_HEIGHT, HELP_WIDTH, (scr_height - HELP_HEIGHT)/2, (scr_width - HELP_WIDTH)/2, COLOR_PAIR(BLUE)));
     
     // If everything is OK, return the false value
     return false;
@@ -150,7 +116,7 @@ bool Terminal::clear_window(DISPLAY_WINDOWS window_name)
 }
 
 // Print a text to the window (false - OK, true - ERROR)
-bool Terminal::print_window(DISPLAY_WINDOWS window_name, char *text)
+bool Terminal::print_window(DISPLAY_WINDOWS window_name, std::string_view text)
 {
     if (text == nullptr)
         return true;
@@ -162,7 +128,7 @@ bool Terminal::print_window(DISPLAY_WINDOWS window_name, char *text)
 	{
     case HEAD:
         head_window->get_width_and_height(head_width, head_height);
-        head_window->print((head_width - strlen(text))/2, head_height - 1, text);
+        head_window->print((head_width - text.size())/2, head_height - 1, text);
         head_window->update();
         break;
     case MAIN_TEXT:
@@ -187,16 +153,16 @@ bool Terminal::print_window(DISPLAY_WINDOWS window_name, char *text)
 }
 
 // Print the system information to the window (false - OK, true - ERROR)
-void Terminal::print_system_window(char *exception_text)
+void Terminal::print_system_window(std::string const& exception_text)
 {
     system_window->clear();
-    WINDOW *print_window = system_window->get_main();
+    WINDOW* print_window = system_window->get_main();
     int current_text_page = main_text_window->set_current_page() + 1;
     int num_text_pages = main_text_window->get_num_pages();
     int num_chr_in_text = main_text_window->get_num_chr();
     mvwprintw(print_window, 0, 1, "Page: %d / %d", current_text_page, num_text_pages);
     mvwprintw(print_window, 1, 1, "All characters: %d", num_chr_in_text);
-    mvwprintw(print_window, 2, 1, "Exception: %s", exception_text);
+    mvwprintw(print_window, 2, 1, "Exception: %s", exception_text.c_str());
     system_window->update();
 }
 
@@ -206,7 +172,7 @@ void Terminal::print_help_window()
     // Clear the help window
     help_window->clear();
     // Print the help window
-    help_window->print((char*)
+    help_window->print(
     "\t\t  HELP\n"
     "LEFT or RIGHT - navigate between pages\n"
     "ENTER - entering the answer\n"
@@ -226,8 +192,6 @@ void Terminal::print_help_window()
 // Scanning input text from the input window
 void Terminal::scan_input_window()
 {
-    // Сlear the array of input characters
-    memset(input_buffer, 0, INPUT_BUFFER_LEN);
     // Move the cursor to the input window
     wmove(input_window->get_main(), 0,8);
     // Enable the display of the cursor
@@ -235,7 +199,7 @@ void Terminal::scan_input_window()
     // Enable the display of characters
     echo();
     // Get the input text line
-    wgetstr(input_window->get_main(), input_buffer);
+    wgetstr(input_window->get_main(), input_buffer.data());
     // Disable the display of characters
     noecho();
     // Disable the display of the cursor
@@ -296,10 +260,4 @@ bool Terminal::input_loop()
             break;
         };
     }
-}
-
-// Return a pointer to the input_buffer Array
-char *Terminal::get_answer()
-{
-    return input_buffer;
 }

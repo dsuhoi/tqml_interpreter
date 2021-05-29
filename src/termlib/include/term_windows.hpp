@@ -2,6 +2,8 @@
 #define __TERM_WINDOWS_H__
 
 #include <ncurses.h>
+#include <vector>
+#include <string>
 
 // Class the main windows
 class TERM_WINDOW
@@ -20,9 +22,9 @@ public:
     // Clear the text in the main subwindow (wclear)
     virtual void clear();
     // Print the text in the main subwindow (wprintw)
-    virtual void print(char *text);
+    virtual void print(std::string_view text);
     // Print the text in the main subwindow (mvwprintw)
-    void print(int x, int y, char *text);
+    void print(int x, int y, std::string_view text);
     // Get the main subwindow width and height
     void get_width_and_height(int &width, int &height);
     // Return a pointer to the main subwindow
@@ -50,18 +52,18 @@ public:
     // Erase all main text variables
     void clear() override;
     // Print the text in the main text window
-    void print(char *text) override;
+    void print(std::string_view text) override;
     // Set/Get current page
-    int &set_current_page();
+    int& set_current_page();
     // Return the number of pages
     int get_num_pages();
     // Return the number of characters
     int get_num_chr();
 private:
-    char **text_buffer;   // Pointer to the main text buffer
-    int num_pages;        // Number of pages in the text
-    int current_page;     // Current page number
-    int num_chr;          // Number of characters in the text
+    std::vector<std::string> text_buffer;   // Pointer to the main text buffer
+    int num_pages = 0;        // Number of pages in the text
+    int current_page = 0;     // Current page number
+    int num_chr = 0;          // Number of characters in the text
 };
 
 
