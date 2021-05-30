@@ -20,19 +20,20 @@ int main(int argc, char **argv)
     std::string main_path;
     int result = 0;
     
-    // Initialize the interpreter components
-    if ((result = initialize(argv[1], text_parts, main_path)) != 0)
-        return result;
-     
-    // Main loop of the interpreter
-    if ((result = process(text_parts, main_path)) != 0)
+    try
+    {
+        // Initialize the interpreter components
+        initialize(argv[1], text_parts, main_path);
+        // Main loop of the interpreter
+        process(text_parts, main_path);
+    }
+    catch(int result)
     {
         end_program(text_parts);
+        std::cout << "Exception code: " << result << std::endl;
         return result;
     }
-    
     // End of the program
     end_program(text_parts);
-    
     return 0;
 }
