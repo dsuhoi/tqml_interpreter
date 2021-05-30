@@ -12,8 +12,6 @@ TERM_WINDOW::TERM_WINDOW(int height, int width, int pos_y, int pos_x)
     background = newwin(height, width, pos_y, pos_x);
     // Create the main subwindow
     main = derwin(background, height - 2, width - 2, 1, 1);
-    // Create the box frame around the main subwindow
-    box(background, 0, 0);
     // refresh background and main
     update();
 }
@@ -47,6 +45,7 @@ void TERM_WINDOW::set_colors(chtype colors)
 void TERM_WINDOW::update()
 {
     wrefresh(background);
+    box(background, 0, 0);
     wrefresh(main);
 }
 
@@ -70,7 +69,7 @@ void TERM_WINDOW::print(int x, int y, std::string const& text)
 }
     
 // Get the main subwindow width and height
-void TERM_WINDOW::get_width_and_height(int &width, int &height)
+void TERM_WINDOW::get_width_and_height(int& width, int& height)
 {
     getmaxyx(main, height, width);
 }
@@ -82,18 +81,12 @@ WINDOW *TERM_WINDOW::get_main()
 }
 
 
-// This function is an analog refresh() for two windows (main and background)
-void MAIN_TEXT_WINDOW::update()
-{
-    TERM_WINDOW::update();
-}
-
 // Update the main text page
 void MAIN_TEXT_WINDOW::update_page()
 {
     TERM_WINDOW::clear();
     TERM_WINDOW::print(text_buffer[current_page]);
-    TERM_WINDOW::update();
+    update();
 }
 
 // Print the text in the main text window

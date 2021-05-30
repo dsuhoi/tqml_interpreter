@@ -12,18 +12,18 @@ int initialize(std::string_view _file_path, std::map<int, Text_block>& text_part
     main_path = Filesystem::get_dir(_file_path);
     // Initialization of terminal functions
     if (Terminal::init_terminal())
-        return 2;
+        throw 2;
     // Initialization of all windows
     if (Terminal::init_all_windows())
-        return 3;
+        throw 3;
     // Buffer for a file text
     std::string read_text;
     // Read the text file
     if (Filesystem::read_file(_file_path, read_text))
-        return 4;
+        throw 4;
     // Parsing the file text
     if (Regex_parser::parse_file(read_text, text_parts))
-        return 5;
+        throw 5;
     // Delete the buffer for a file text
     
     return 0;
@@ -70,9 +70,9 @@ int process(std::map<int, Text_block>& text_parts, std::string const& main_path)
             std::string read_text;
             // Read the file and parsing the its text
             if (Filesystem::read_file(new_path_str, read_text))
-                return 4;
+                throw 4;
             if (Regex_parser::parse_file(read_text, text_parts))
-                return 5;
+                throw 5;
         }
     }
     
