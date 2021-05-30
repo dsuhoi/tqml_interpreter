@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.8)
 set(PROJECT tqml)
 set(LIBRARIES
     interpreter
-    filesystem
     parserlib
     termlib)
 set(SOURCES ../src/main.cpp)
