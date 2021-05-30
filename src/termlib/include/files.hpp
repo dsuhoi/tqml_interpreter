@@ -32,11 +32,10 @@ struct Filesystem
         return false;
     }
     // Get the absolute path
-    static void get_dir(std::string_view file_path, std::string& str)
+    static std::string get_dir(std::string_view file_path)
     {
         namespace fs = std::filesystem;
-        fs::path path_to_file = fs::canonical(file_path);
-        str = path_to_file.parent_path().native() + '/';
+        return fs::canonical(file_path).parent_path().native() + '/';
     }
 };
 

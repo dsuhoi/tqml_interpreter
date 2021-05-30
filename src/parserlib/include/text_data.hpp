@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <optional>
-
+#include "regex_parser.hpp"
 
 // Text link to the next text part
 class Text_link
@@ -38,6 +38,7 @@ class Text_block
 {
 public:
     // Constructor
+    Text_block() = default;
     Text_block(std::string const& full_text)
     {
         Regex_parser::parse_links(full_text, _vect_links);

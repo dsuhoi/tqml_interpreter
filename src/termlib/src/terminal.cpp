@@ -1,7 +1,6 @@
 #include <cstring>
 #include "terminal.hpp"
 
-
 // Initialization of terminal functions (false - OK, true - ERROR)
 bool Terminal::init_terminal()
 {
@@ -27,6 +26,7 @@ void Terminal::init_all_colors()
     init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK);
     init_pair(BLUE, COLOR_BLACK, COLOR_BLUE);
     init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
+    
 }
 
 // End of terminal functions (false - OK, true - ERROR)
@@ -42,7 +42,15 @@ bool Terminal::final_terminal()
     // Enable the display of cursor and characters
     curs_set(1);
     echo();
-
+    
+    // Delete all windows
+    head_window.release();
+    main_text_window.release();
+    extra_window.release();
+    system_window.release();
+    input_window.release();
+    help_window.release();
+    
     // End of the terminal
     endwin();
     // If everything is OK, return the false value
@@ -83,7 +91,6 @@ bool Terminal::init_all_windows()
     system_window.reset(new TERM_WINDOW(WINDOW_HEIGHT, win_width/2, pos_down_height, posRightWidth, COLOR_PAIR(CYAN)));
     
     help_window.reset(new TERM_WINDOW(HELP_HEIGHT, HELP_WIDTH, (scr_height - HELP_HEIGHT)/2, (scr_width - HELP_WIDTH)/2, COLOR_PAIR(BLUE)));
-    
     // If everything is OK, return the false value
     return false;
 }
@@ -116,9 +123,9 @@ bool Terminal::clear_window(DISPLAY_WINDOWS window_name)
 }
 
 // Print a text to the window (false - OK, true - ERROR)
-bool Terminal::print_window(DISPLAY_WINDOWS window_name, std::string_view text)
+bool Terminal::print_window(DISPLAY_WINDOWS window_name, std::string const& text)
 {
-    if (text == nullptr)
+    if (text.empty())
         return true;
     
     clear_window(window_name);
@@ -156,7 +163,7 @@ bool Terminal::print_window(DISPLAY_WINDOWS window_name, std::string_view text)
 void Terminal::print_system_window(std::string const& exception_text)
 {
     system_window->clear();
-    WINDOW* print_window = system_window->get_main();
+    WINDOW *print_window = system_window->get_main();
     int current_text_page = main_text_window->set_current_page() + 1;
     int num_text_pages = main_text_window->get_num_pages();
     int num_chr_in_text = main_text_window->get_num_chr();
@@ -172,7 +179,7 @@ void Terminal::print_help_window()
     // Clear the help window
     help_window->clear();
     // Print the help window
-    help_window->print(
+    help_window->print((char*)
     "\t\t  HELP\n"
     "LEFT or RIGHT - navigate between pages\n"
     "ENTER - entering the answer\n"
@@ -192,6 +199,9 @@ void Terminal::print_help_window()
 // Scanning input text from the input window
 void Terminal::scan_input_window()
 {
+    // Сlear the array of input characters
+    //input_buffer.clear();
+    memset(input_buffer, 0, INPUT_BUFFER_LEN);
     // Move the cursor to the input window
     wmove(input_window->get_main(), 0,8);
     // Enable the display of the cursor
@@ -199,7 +209,7 @@ void Terminal::scan_input_window()
     // Enable the display of characters
     echo();
     // Get the input text line
-    wgetstr(input_window->get_main(), input_buffer.data());
+    wgetstr(input_window->get_main(), input_buffer);
     // Disable the display of characters
     noecho();
     // Disable the display of the cursor
@@ -261,3 +271,4 @@ bool Terminal::input_loop()
         };
     }
 }
+

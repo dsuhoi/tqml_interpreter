@@ -1,9 +1,9 @@
 #ifndef __TERMINAL_H__
 #define __TERMINAL_H__
 
-#include <ncurses.h>
 #include <memory>
-
+#include <ncurses.h>
+#include <string>
 #include "term_windows.hpp"
 
 // background and cursor colors
@@ -60,7 +60,7 @@ public:
     // End of terminal functions (false - OK, true - ERROR)
     static bool final_terminal();
     // Print a text to the window (false - OK, true - ERROR)
-    static bool print_window(DISPLAY_WINDOWS window_name, std::string_view text);
+    static bool print_window(DISPLAY_WINDOWS window_name, std::string const& text);
     // Print the system information to the window (false - OK, true - ERROR)
     static void print_system_window(std::string const& exception_text = "");
     // Printing help window
@@ -71,20 +71,20 @@ public:
     static std::string get_answer() { return input_buffer; }
 private:
     // Array of input characters
-    static std::string input_buffer;
+    static inline char input_buffer[INPUT_BUFFER_LEN];
     
     // Window for displaying the title text
-    static std::unique_ptr<TERM_WINDOW> head_window;
+    static inline std::unique_ptr<TERM_WINDOW> head_window;
     // Window for displaying the text of the story
-    static std::unique_ptr<MAIN_TEXT_WINDOW> main_text_window;
+    static inline std::unique_ptr<MAIN_TEXT_WINDOW> main_text_window;
     // Window for displaying the input user data
-    static std::unique_ptr<TERM_WINDOW> input_window;
+    static inline std::unique_ptr<TERM_WINDOW> input_window;
     // Window for displaying the user extra information
-    static std::unique_ptr<TERM_WINDOW> extra_window;
+    static inline std::unique_ptr<TERM_WINDOW> extra_window;
     // Window for displaying the system information
-    static std::unique_ptr<TERM_WINDOW> system_window;
+    static inline std::unique_ptr<TERM_WINDOW> system_window;
     // Window for displaying the help information
-    static std::unique_ptr<TERM_WINDOW> help_window;
+    static inline std::unique_ptr<TERM_WINDOW> help_window;
     
     
     // Analog refresh() function for the windows

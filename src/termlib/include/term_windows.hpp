@@ -3,7 +3,6 @@
 
 #include <ncurses.h>
 #include <vector>
-#include <string>
 
 // Class the main windows
 class TERM_WINDOW
@@ -22,16 +21,16 @@ public:
     // Clear the text in the main subwindow (wclear)
     virtual void clear();
     // Print the text in the main subwindow (wprintw)
-    virtual void print(std::string_view text);
+    virtual void print(std::string const& text);
     // Print the text in the main subwindow (mvwprintw)
-    void print(int x, int y, std::string_view text);
+    void print(int x, int y, std::string const& text);
     // Get the main subwindow width and height
     void get_width_and_height(int &width, int &height);
     // Return a pointer to the main subwindow
-    WINDOW *get_main();
+    WINDOW* get_main();
 private:
-    WINDOW *main;       // This is the main subwindow
-    WINDOW *background; // and its background window
+    WINDOW* main;       // This is the main subwindow
+    WINDOW* background; // and its background window
 };
 
 
@@ -40,10 +39,12 @@ class MAIN_TEXT_WINDOW : public TERM_WINDOW
 {
 public:
     // Constructors
-    MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x);
-    MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x, chtype colors);
+    MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x) : 
+        TERM_WINDOW(height, width, pos_y, pos_x) {}
+    MAIN_TEXT_WINDOW(int height, int width, int pos_y, int pos_x, chtype colors) :
+        TERM_WINDOW(height, width, pos_y, pos_x, colors) {}
     // Destructor
-    ~MAIN_TEXT_WINDOW();
+    ~MAIN_TEXT_WINDOW() { clear(); }
     
     // This function is an analog refresh() for two windows (main and background)
     void update() override;
@@ -52,13 +53,13 @@ public:
     // Erase all main text variables
     void clear() override;
     // Print the text in the main text window
-    void print(std::string_view text) override;
+    void print(std::string const& text) override;
     // Set/Get current page
-    int& set_current_page();
+    int &set_current_page() { return current_page; }
     // Return the number of pages
-    int get_num_pages();
+    int get_num_pages() const { return num_pages; }
     // Return the number of characters
-    int get_num_chr();
+    int get_num_chr() const { return num_chr; }
 private:
     std::vector<std::string> text_buffer;   // Pointer to the main text buffer
     int num_pages = 0;        // Number of pages in the text

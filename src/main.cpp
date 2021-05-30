@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     }
     
     // Map to the text parts and its link
-    std::map<int, Text_block*> text_parts;
+    std::map<int, Text_block> text_parts;
     // Path to the folder with the question
     std::string main_path;
     int result = 0;
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     // Initialize the interpreter components
     if ((result = initialize(argv[1], text_parts, main_path)) != 0)
         return result;
-        
+     
     // Main loop of the interpreter
     if ((result = process(text_parts, main_path)) != 0)
     {
