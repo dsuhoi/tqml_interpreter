@@ -18,8 +18,6 @@ int main(int argc, char **argv)
     std::map<int, Text_block> text_parts;
     // Path to the folder with the question
     std::string main_path;
-    int result = 0;
-    
     try
     {
         // Initialize the interpreter components

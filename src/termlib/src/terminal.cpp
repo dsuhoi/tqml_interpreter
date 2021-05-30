@@ -218,14 +218,26 @@ void Terminal::scan_input_window()
     clear_window(INPUT);
 }
 
+void Terminal::update_all_windows()
+{
+    refresh();
+    head_window->update();
+    main_text_window->update();
+    input_window->update();
+    extra_window->update();
+    system_window->update();
+}
+
 
 // The main loop to enter keys on the keyboard
 bool Terminal::input_loop()
 {
     // This is the ENTER key of the keyboard
-    const int ENTER = 10;
+    constexpr int ENTER = 10;
     // ESC key of the keyboard
-    const int ESC = 27;
+    constexpr int ESC = 27;
+    
+    update_all_windows();
     
     int current_text_page = main_text_window->set_current_page();
     int num_text_pages = main_text_window->get_num_pages();
@@ -256,6 +268,7 @@ bool Terminal::input_loop()
             main_text_window->update_page();
             print_system_window();
             break;
+        case 'q':
         case ESC:
             // End of the program
             return true;

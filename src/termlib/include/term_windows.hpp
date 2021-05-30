@@ -25,7 +25,7 @@ public:
     // Print the text in the main subwindow (mvwprintw)
     void print(int x, int y, std::string const& text);
     // Get the main subwindow width and height
-    void get_width_and_height(int &width, int &height);
+    void get_width_and_height(int& width, int& height);
     // Return a pointer to the main subwindow
     WINDOW* get_main();
 private:
@@ -46,8 +46,6 @@ public:
     // Destructor
     ~MAIN_TEXT_WINDOW() { clear(); }
     
-    // This function is an analog refresh() for two windows (main and background)
-    void update() override;
     // Update the main text page
     void update_page();
     // Erase all main text variables

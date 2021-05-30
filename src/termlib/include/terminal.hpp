@@ -65,6 +65,8 @@ public:
     static void print_system_window(std::string const& exception_text = "");
     // Printing help window
     static void print_help_window();
+    // Update all windows
+    static void update_all_windows();
     // The main loop to enter keys on the keyboard (false - OK, true - ERROR)
     static bool input_loop();
     // Return a pointer to the inputBuffer Array
